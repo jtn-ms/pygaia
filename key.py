@@ -1,16 +1,13 @@
-#!coding:utf8
+# -*- coding: utf-8 -*-
 
 #author:yqq
 #date:2019/5/5 0005 19:33
+#modified by junying, 2019-06-10
 #description:  USDP地址生成
-
-
 
 import hashlib
 import ecdsa
 import os
-
-
 
 #-----------------------------bech32编码---------------------------------------------
 # Copyright (c) 2017 Pieter Wuille
@@ -147,7 +144,7 @@ def encode(hrp, witver, witprog):
 g_nMaxPrivKey = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140 - 0x423423843  #私钥最大值 (差值是自定义的)
 g_nMinPrivKey = 0x0000000000000000000000000000000000000000000000000000000000000001 + 0x324389329  #私钥最小值 (增值是自定义的)
 
-def PrivKeyToPubKeyCompress(privKey):
+def privkey2pubkey(privKey):
     '''
     私钥-->公钥  压缩格式公钥
     :param privKey:  ( 如果是奇数,前缀是 03; 如果是偶数, 前缀是 02)   +  x轴坐标
@@ -170,9 +167,7 @@ def PrivKeyToPubKeyCompress(privKey):
         raise("array overindex")
         pass
 
-
-
-def GenPrivKey():
+def genprivkey():
     '''
     生成私钥, 使用 os.urandom (底层使用了操作系统的随机函数接口, 取决于CPU的性能,各种的硬件的数据指标)
     :return:私钥(16进制编码)
@@ -185,7 +180,7 @@ def GenPrivKey():
             return privKey
 
 
-def PubKeyToAddr( pubKey,  hrp='usdp'):
+def pubkey2addr( pubKey,  hrp='usdp'):
     ripemd160 = hashlib.new('ripemd160')
     ripemd160.update(hashlib.sha256(pubKey.decode('hex')).digest())
     r160data = ripemd160.digest()
@@ -195,8 +190,11 @@ def PubKeyToAddr( pubKey,  hrp='usdp'):
     addr = bech32_encode(hrp, convertbits(dataList, 8, 5))   #bech32编码
     return addr
 
+def privkey2addr(privKey, hrp='usdp'):
+    pubKey = privkey2pubkey(privKey)
+    return pubKey,pubkey2addr(pubKey, hrp)
 
-def GenAddr(hrp = 'usdp'):
+def genkey(hrp='usdp'):
     '''
     USDP 生成地址
     :param hrp:  前缀 , USDP和 HTDF 通用
@@ -204,45 +202,18 @@ def GenAddr(hrp = 'usdp'):
     '''
 
     #生成私钥
-    privKey = GenPrivKey()
-
+    privKey = genprivkey()
     #私钥-->公钥
-    pubKey = PrivKeyToPubKeyCompress(privKey)
-
+    pubKey = privkey2pubkey(privKey)
     #公钥-->地址
-    addr = PubKeyToAddr(pubKey, hrp)
-    return str(privKey),  str(pubKey), str(addr)
+    addr = pubkey2addr(pubKey, hrp)
+    return str(privKey), str(pubKey), str(addr)
 
-
-
-def GenMultiAddr(nAddrCount = 1, isTestnet=True):
-    '''
-    生成多个地址  此函数供C++调用
-    :param nAddrCount:
-    :param isTestnet:
-    :return:
-    '''
-    # return [("1111", "2222", "3333"), ("4444", "55555", "66666")]
-
-    lstRet = []
-    for i in range(nAddrCount):
-        lstRet.append(GenAddr('usdp'))
-    return lstRet
-
-
-def main():
-
-    lstRet = GenMultiAddr(10)
-    print(lstRet)
-
-
-    pass
-
-
-
-
-if __name__ == '__main__':
-
-    main()
-
-
+def genkeys(hrp='htdf',count=10,filepath=None):
+    accs = []
+    for index in range(count):
+        privkey,pubkey,addr=genkey(hrp)
+        accs.append('{0}\t{1}\t{2}\n'.format(hrp,addr,privkey))
+    if filepath:
+        with open(filepath,'w') as file:
+            file.writelines(accs)
