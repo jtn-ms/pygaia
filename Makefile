@@ -111,9 +111,9 @@ genkey2db.multi.usdp:
 
 
 chkacc.all.htdf:
-	@python -c "from tx import accountinfo; print accountinfo('${DISTR_ACC_ADDR_HTDF}')"
-	@python -c "from tx import accountinfo; print accountinfo('${GOV_ACC_ADDR_HTDF}')"
-	@python -c "from accu import report; report(privkeyfile='${DB_HTDF}')";
+	@python -c "from tx import accountinfo; print accountinfo('${DISTR_ACC_ADDR_HTDF}','${REST_IP_PORT_HTDF}')"
+	@python -c "from tx import accountinfo; print accountinfo('${GOV_ACC_ADDR_HTDF}','${REST_IP_PORT_HTDF}')"
+	@python -c "from accu import report; report(privkeyfile='${DB_HTDF}','${REST_IP_PORT_HTDF}')";
 
 # ACC_INDEX = $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))")
 # chkacc.all.htdf.old:
@@ -125,7 +125,7 @@ chkacc.all.htdf:
 chkacc.all.usdp:
 	@python -c "from tx import accountinfo; print accountinfo('${DISTR_ACC_ADDR_USDP}','${REST_IP_PORT_USDP}')"
 	@python -c "from tx import accountinfo; print accountinfo('${GOV_ACC_ADDR_USDP}','${REST_IP_PORT_USDP}')"
-	@python -c "from accu import report; report(privkeyfile='${DB_USDP}')";
+	@python -c "from accu import report; report(privkeyfile='${DB_USDP}',restapi='${REST_IP_PORT_USDP}')";
 # chkacc.all.usdp.old:
 # @for index in ${ACC_INDEX}; do \
 #  addr=$$(row $$index ${DB_USDP} 1|column 2); \
