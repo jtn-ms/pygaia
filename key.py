@@ -179,7 +179,6 @@ def genprivkey():
         if  g_nMinPrivKey < int(privKey, 16) <   g_nMaxPrivKey:
             return privKey
 
-
 def pubkey2addr( pubKey,  hrp='usdp'):
     ripemd160 = hashlib.new('ripemd160')
     ripemd160.update(hashlib.sha256(pubKey.decode('hex')).digest())
