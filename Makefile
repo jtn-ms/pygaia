@@ -10,7 +10,7 @@ DEFAULT_TX_FEE = 20
 
 DB_DIR_ACCU = $(CURDIR)/db/accu
 DB_DIR_DISTR = $(CURDIR)/db/distr
-DB_DIR = $(DB_DIR_ACCU)
+DB_DIR = $(DB_DIR_DISTR)
 # [htdf]
 REST_IP_PORT_HTDF = 47.98.194.7:1317
 DB_HTDF = $(DB_DIR)/htdf.privkey
@@ -60,6 +60,18 @@ transfer.one.htdf:
 												  toaddr='$$toaddr',\
 												  namount=$$amount,\
 												  restapi='${REST_IP_PORT_HTDF}',\
+												  chainid='${CHAIN_ID}',\
+												  ngas=${DEFAULT_TX_GAS},\
+												  nfee=${DEFAULT_TX_FEE})";
+
+transfer.one.usdp:
+	@read -p "Type Toaddress: " toaddr; \
+	 read -p "Type Amount: " amount; \
+	 python -c "from tx import transfer; transfer(hrp='usdp',\
+	 											  fromprivkey='${DISTR_ACC_PRIVKEY_USDP}',\
+												  toaddr='$$toaddr',\
+												  namount=$$amount,\
+												  restapi='${REST_IP_PORT_USDP}',\
 												  chainid='${CHAIN_ID}',\
 												  ngas=${DEFAULT_TX_GAS},\
 												  nfee=${DEFAULT_TX_FEE})";
@@ -132,7 +144,7 @@ distr.htdf:
 DISTR_AMOUNT = 1000000
 distr.usdp:
 	@python -c "from distr import distr; distr(fromprivkey='${DISTR_ACC_PRIVKEY_USDP}',\
-											  hrp='htdf',\
+											  hrp='usdp',\
 											  privkeyfile='${DB_USDP}',\
 											  restapi='${REST_IP_PORT_USDP}',\
 											  chainid='${CHAIN_ID}',\

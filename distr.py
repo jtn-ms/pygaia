@@ -3,7 +3,7 @@ from tx import transfer,accountinfo
 from key import privkey2addr
 from accu import getitems
 
-blk_time=30
+blk_time=10
 def distr(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65',
           hrp='htdf',privkeyfile = 'htdf.privkey',
           restapi='47.98.194.7:1317', chainid='testchain',

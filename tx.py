@@ -174,7 +174,7 @@ def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testcha
 
 def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',nfee=20, ngas=20000,restapi='47.98.194.7:1317'):
     from key import privkey2addr
-    frompubkey,fromaddr = privkey2addr(fromprivkey,hrp='htdf')
+    frompubkey,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
     #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
     _, naccnumber, nsequence = accountinfo(fromaddr,restapi)
     if naccnumber < 0 or nsequence < 0: return
