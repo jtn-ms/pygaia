@@ -13,6 +13,33 @@ def distr(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc1
         transfer(hrp,fromprivkey, toaddr, nAmount, chainid, ndefault_fee, ndefault_gas,restapi)
         import time
         time.sleep(blk_time)
-        
+
+def count(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317',debug=False):
+    nonzeros,zeros = [],[]
+    for item in getitems(privkeyfile):
+        addr,privkey=item[1],item[2]
+        try: balance = accountinfo(addr,restapi)[0]
+        except: continue
+        nonzeros.append([addr,balance,privkey]) if balance > 0 else zeros.append(addr)
+    if debug: print(len(nonzeros),len(zeros))
+    return nonzeros,zeros
+
+from multiprocessing import Process
+def distrex(hrp='htdf',privkeyfile='htdf.privkey',
+            restapi='47.98.194.7:1317', chainid='testchain',
+            ndefault_gas=200000,ndefault_fee=20):
+    nonzeros,zeros = count(privkeyfile,restapi)
+    num = 0
+    while len(zeros)>0 and num < 10:
+        for index,nonzero in enumerate(nonzeros):
+            fromaddr,balance,fromprivkey = nonzero
+            namount = balance * (10**8) - ndefault_fee
+            if namount < 0: continue
+            toaddr=zeros[index]
+            try: Process(target=transfer,args=(hrp,fromprivkey, toaddr, int(namount/2), chainid, ndefault_fee, ndefault_gas,restapi)).start()
+            except: continue
+        nonzeros,zeros = count(privkeyfile,restapi)
+        num += 1
+    
 if __name__ == "__main__":
     distr('db/distr/htdf.privkey')

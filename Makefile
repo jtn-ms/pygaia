@@ -151,6 +151,34 @@ distr.usdp:
 											  ndefault_gas=${DEFAULT_TX_GAS},\
 											  ndefault_fee=${DEFAULT_TX_FEE},\
 											  nAmount=${DISTR_AMOUNT})";
+
+distr.usdp.count:
+	@python -c "from distr import count; count(privkeyfile='${DB_USDP}',\
+											   restapi='${REST_IP_PORT_USDP}',\
+											   debug=True)";
+
+distr.htdf.count:
+	@python -c "from distr import count; count(privkeyfile='${DB_HTDF}',\
+											   restapi='${REST_IP_PORT_HTDF}',
+											   debug=True)";
+
+distrex.usdp:
+	@python -c "from distr import distrex;  distrex(hrp='usdp',\
+											  	    privkeyfile='${DB_USDP}',\
+											  		restapi='${REST_IP_PORT_USDP}',\
+											  		chainid='${CHAIN_ID}',\
+											  		ndefault_gas=${DEFAULT_TX_GAS},\
+											  		ndefault_fee=${DEFAULT_TX_FEE})";
+
+distrex.htdf:
+	@python -c "from distr import distrex;  distrex(hrp='htdf',\
+											  	    privkeyfile='${DB_HTDF}',\
+											  		restapi='${REST_IP_PORT_HTDF}',\
+											  		chainid='${CHAIN_ID}',\
+											  		ndefault_gas=${DEFAULT_TX_GAS},\
+											  		ndefault_fee=${DEFAULT_TX_FEE})";
+
+
 #  %%%%%
 # {^ | ^} 
 #    _		>>>	Maid
