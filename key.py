@@ -209,10 +209,14 @@ def genkey(hrp='usdp'):
     addr = pubkey2addr(pubKey, hrp)
     return str(privKey), str(pubKey), str(addr)
 
+import multiprocessing
+from functools import partial
 def genkeys(hrp='htdf',count=10,filepath=None):
     accs = []
-    for index in range(count):
-        privkey,pubkey,addr=genkey(hrp)
+    pool = multiprocessing.Pool(multiprocessing.cpu_count())
+    outputs = pool.map(genkey,[hrp]*count)
+    for output in outputs:
+        privkey,pubkey,addr=output
         accs.append('{0}\t{1}\t{2}\n'.format(hrp,addr,privkey))
     if filepath:
         with open(filepath,'w') as file:

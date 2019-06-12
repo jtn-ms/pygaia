@@ -1,57 +1,142 @@
 # written by junying, 2019-06-10
 # accumulate small accounts balance into one.
-
-# input
-PRVKEY_PATH_USDP = $(HOME)/.prvkey/usdp_prvkey.bin
-PRVKEY_PATH_HTDF = $(HOME)/.prvkey/htdf_prvkey.bin
-##
+#######################################################################################################################
+## database file ######################################################################################################
+## htdf	htdf1yc8xyy47j3ysq5dzwlhd48mtueg0vrhz4e0e82	725f8dce588fd7c5e485a4d37e1236f5fdbbf51754187f253ef947f09e4e6d98 ##
+#######################################################################################################################
 CHAIN_ID = testchain
 DEFAULT_TX_GAS = 200000
 DEFAULT_TX_FEE = 20
-REST_IP_PORT_USDP = 47.99.81.158:1317
+DB_DIR = $(CURDIR)/db
+# [htdf]
 REST_IP_PORT_HTDF = 47.98.194.7:1317
+DB_HTDF = $(DB_DIR)/htdf.privkey
+# [usdp]
+REST_IP_PORT_USDP = 47.99.81.158:1317
+DB_USDP = $(DB_DIR)/usdp.privkey
 
+#+ &&&&& 
+#+{@ | @}
+#++  _  +	>>>	Main
+# accumulate 
+GOV_ACC_PRIVKEY_HTDF = d3a29ac68982125f46421e2c06be95b151f3a94ca02a9edcde1d8179c0750d10
+GOV_ACC_ADDR_HTDF = htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3
+accu.htdf:
+	@python -c "from accu import accumulate; accumulate(toaddr='${GOV_ACC_ADDR_HTDF}',\
+														privkeyfile='${DB_HTDF}',\
+														restapi='${REST_IP_PORT_HTDF}',\
+														chainid='${CHAIN_ID}',\
+														ndefault_gas=${DEFAULT_TX_GAS},\
+														ndefault_fee=${DEFAULT_TX_FEE})";
+
+GOV_ACC_PRIVKEY_USDP = 28fb2d33f42c29031ea5820951d89070dc1f2631bb92e49cf9dda9b48a164d48
+GOV_ACC_ADDR_USDP = usdp1vwhmsa58xd5ehymexedlmrmcyje0wmsdtf30ly
+accu.usdp:
+	@python -c "from accu import accumulate; accumulate(toaddr='${GOV_ACC_ADDR_USDP}',\
+														privkeyfile='${DB_USDP}',\
+														restapi='${REST_IP_PORT_USDP}',\
+														chainid='${CHAIN_ID}',\
+														ndefault_gas=${DEFAULT_TX_GAS},\
+														ndefault_fee=${DEFAULT_TX_FEE})";
+
+#  %%%%%
+# {@ | ~} 
+#    _		>>>	Singleton
+# transfer token
+# In:  htdf1yc8xyy47j3ysq5dzwlhd48mtueg0vrhz4e0e82,100000
+# Out: 
+transfer.one.htdf:
+	@read -p "Type Toaddress: " toaddr; \
+	 read -p "Type Amount: " amount; \
+	 python -c "from tx import transfer; transfer(hrp='htdf',\
+	 											  fromprivkey='${GOV_ACC_PRIVKEY_HTDF}',\
+												  toaddr='$$toaddr',\
+												  namount=$$amount,\
+												  restapi='${REST_IP_PORT_HTDF}',\
+												  chainid='${CHAIN_ID}',\
+												  ngas=${DEFAULT_TX_GAS},\
+												  nfee=${DEFAULT_TX_FEE})";
+# check account
+chkacc.one.htdf:
+	@read -p "Type htdf address: " addr; \
+	 python -c "from tx import accountinfo; print accountinfo('$$addr','${REST_IP_PORT_HTDF}')"
+chkacc.one.usdp:
+	@read -p "Type usdp address: " addr; \
+	 python -c "from tx import accountinfo; print accountinfo('$$addr','${REST_IP_PORT_USDP}')"
+
+# generate random key
+genkey.one.usdp:
+	@python -c "from key import genkey; print genkey('usdp')"
+genkey.one.htdf:
+	@python -c "from key import genkey; print genkey('htdf')"
+
+# convert
+privkey2addr.htdf:
+	@read -p "Type htdf privkey: " privkey; \
+	 python -c "from key import privkey2addr; print privkey2addr('$$privkey',hrp='htdf')"
+privkey2addr.usdp:
+	@read -p "Type usdp privkey: " privkey; \
+	 python -c "from key import privkey2addr; print privkey2addr('$$privkey',hrp='usdp')"
+#  $$$$$
+# {~ | ~} 
+#    _		>>>	Simulation
 # generate
 ACC_COUNT = 10
 ACC_INDEX = $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))")
-DB_DIR = $(CURDIR)/db
-DB_HTDF = $(DB_DIR)/htdf.privkey
-DB_USDP = $(DB_DIR)/usdp.privkey
-
-genacc:
+genkey2db.multi.htdf:
 	@if ! [ -d "${DB_DIR}" ]; then mkdir ${DB_DIR}; fi
-	@for index in ${ACC_INDEX}; do \
-	 python -c "from key import genkeys; genkeys('htdf',10,'${DB_HTDF}')";\
-	 python -c "from key import genkeys; genkeys('usdp',10,'${DB_USDP}')";\
-	 done
+	@python -c "from key import genkeys; genkeys('htdf',${ACC_COUNT},'${DB_HTDF}')";
+genkey2db.multi.usdp:
+	@if ! [ -d "${DB_DIR}" ]; then mkdir ${DB_DIR}; fi
+	@python -c "from key import genkeys; genkeys('usdp',${ACC_COUNT},'${DB_USDP}')";
 
-# distribution
-DISTR_ACC_HTDF = htdf12sc78p9nr9s8qj06e2tqfqhlwlx0ncuq8l9gsh
-distr:
-	@python -c "from accu import distr; distr(privkeyfile='${DB_HTDF}')";
-
-# accumulate
-GOV_ACC_PRIVKEY_HTDF = d3a29ac68982125f46421e2c06be95b151f3a94ca02a9edcde1d8179c0750d10
-GOV_ACC_ADDR_HTDF = htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3
-accu:
-	@python -c "from accu import accumulate; accumulate(toaddr='${GOV_ACC_ADDR_HTDF}',privkeyfile='${DB_HTDF}')";
-
-# test
-genkey:
-	@python -c "from key import genkey; print genkey('usdp')"
-	@python -c "from key import genkey; print genkey('htdf')"
-
-chkacc:
-	@python -c "from tx import accountinfo; print accountinfo('${DISTR_ACC_HTDF}')"
+DISTR_ACC_PRIVKEY_HTDF= c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65
+DISTR_ACC_ADDR_HTDF = htdf12sc78p9nr9s8qj06e2tqfqhlwlx0ncuq8l9gsh
+chkacc.all.htdf:
+	@python -c "from tx import accountinfo; print accountinfo('${DISTR_ACC_ADDR_HTDF}')"
 	@python -c "from tx import accountinfo; print accountinfo('${GOV_ACC_ADDR_HTDF}')"
 	@python -c "from accu import report; report(privkeyfile='${DB_HTDF}')";
 
-# clean
+# chkacc.all.htdf.old:
+# @for index in ${ACC_INDEX}; do \
+#  addr=$$(row $$index ${DB_HTDF} 1|column 2); \
+#  python -c "from multiprocessing import Process;from tx import accountinfo;\
+#  			Process(target=accountinfo,args=('$$addr','${REST_IP_PORT_HTDF}',True)).start();"; done
+
+chkacc.all.usdp:
+	@python -c "from tx import accountinfo; print accountinfo('${DISTR_ACC_ADDR_USDP}','${REST_IP_PORT_USDP}')"
+	@python -c "from tx import accountinfo; print accountinfo('${GOV_ACC_ADDR_USDP}','${REST_IP_PORT_USDP}')"
+	@python -c "from accu import report; report(privkeyfile='${DB_USDP}')";
+# chkacc.all.usdp.old:
+# @for index in ${ACC_INDEX}; do \
+#  addr=$$(row $$index ${DB_USDP} 1|column 2); \
+#  python -c "import threading;from tx import accountinfo;\
+# 			threading.Thread(target=accountinfo,args=('$$addr','${REST_IP_PORT_USDP}',True)).start();"; done
+
+# distribution
+distr.htdf:
+	@python -c "from accu import distr; distr(fromprivkey='${DISTR_ACC_PRIVKEY_HTDF}',\
+											  hrp='htdf',\
+											  privkeyfile='${DB_HTDF}',\
+											  restapi='${REST_IP_PORT_HTDF}',\
+											  chainid='${CHAIN_ID}',\
+											  ndefault_gas=${DEFAULT_TX_GAS},\
+											  ndefault_fee=${DEFAULT_TX_FEE})";
+
+distr.usdp:
+	@python -c "from accu import distr; distr(fromprivkey='${DISTR_ACC_PRIVKEY_USDP}',\
+											  hrp='htdf',\
+											  privkeyfile='${DB_USDP}',\
+											  restapi='${REST_IP_PORT_USDP}',\
+											  chainid='${CHAIN_ID}',\
+											  ndefault_gas=${DEFAULT_TX_GAS},\
+											  ndefault_fee=${DEFAULT_TX_FEE})";
+#  %%%%%
+# {^ | ^} 
+#    _		>>>	Maid
 clean:
 	@find -name "*.pyc" -exec rm -f {} \;
 	@find -name __pycache__ | xargs rm -rf
 	@find -name .pytest_cache | xargs rm -rf
 
-.PHONY: test
-
-
+.PHONY: chkacc.all
