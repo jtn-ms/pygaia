@@ -19,10 +19,10 @@ GOV_ACC_ADDR_HTDF = htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3
 DISTR_ACC_PRIVKEY_HTDF= c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65
 DISTR_ACC_ADDR_HTDF = htdf12sc78p9nr9s8qj06e2tqfqhlwlx0ncuq8l9gsh
 # [usdp]
-REST_IP_PORT_USDP = 39.106.90.41:1317
+REST_IP_PORT_USDP = 47.75.88.24:1317
 DB_USDP = $(DB_DIR)/usdp.privkey
-GOV_ACC_PRIVKEY_USDP = 28fb2d33f42c29031ea5820951d89070dc1f2631bb92e49cf9dda9b48a164d48
-GOV_ACC_ADDR_USDP = usdp1vwhmsa58xd5ehymexedlmrmcyje0wmsdtf30ly
+GOV_ACC_PRIVKEY_USDP = 056e136f5c35ce6ad4fad2c5e50c26f1d9664995f96d1dd0b4c035a9c57d919f
+GOV_ACC_ADDR_USDP = usdp1gfcl4a3sp0j50hxg4ngtt36guk66xnz42h085e
 DISTR_ACC_PRIVKEY_USDP= 28fb2d33f42c29031ea5820951d89070dc1f2631bb92e49cf9dda9b48a164d48
 DISTR_ACC_ADDR_USDP = usdp1vwhmsa58xd5ehymexedlmrmcyje0wmsdtf30ly
 #+ &&&&& 
@@ -114,7 +114,6 @@ chkacc.all.htdf:
 	@python -c "from tx import accountinfo; print accountinfo('${DISTR_ACC_ADDR_HTDF}','${REST_IP_PORT_HTDF}')"
 	@python -c "from tx import accountinfo; print accountinfo('${GOV_ACC_ADDR_HTDF}','${REST_IP_PORT_HTDF}')"
 	@python -c "from accu import report; report(privkeyfile='${DB_HTDF}','${REST_IP_PORT_HTDF}')";
-
 # ACC_INDEX = $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))")
 # chkacc.all.htdf.old:
 # @for index in ${ACC_INDEX}; do \
@@ -178,11 +177,25 @@ distrex.htdf:
 											  		ndefault_gas=${DEFAULT_TX_GAS},\
 											  		ndefault_fee=${DEFAULT_TX_FEE})";
 
+flood.htdf:
+	@python -c "from flood import flood;  flood(hrp='htdf',\
+											  	privkeyfile='${DB_HTDF}',\
+											  	restapi='${REST_IP_PORT_HTDF}',\
+											  	chainid='${CHAIN_ID}',\
+											  	ndefault_gas=${DEFAULT_TX_GAS},\
+											  	ndefault_fee=${DEFAULT_TX_FEE})";
 
+flood.usdp:
+	@python -c "from flood import flood;  flood(hrp='usdp',\
+											  	privkeyfile='${DB_USDP}',\
+											  	restapi='${REST_IP_PORT_USDP}',\
+											  	chainid='${CHAIN_ID}',\
+											  	ndefault_gas=${DEFAULT_TX_GAS},\
+											  	ndefault_fee=${DEFAULT_TX_FEE})";
 #  %%%%%
 # {^ | ^} 
 #    _		>>>	Maid
-# clean
+# utils: clean,tar
 clean:
 	@find -name "*.pyc" -exec rm -f {} \;
 	@find -name __pycache__ | xargs rm -rf
