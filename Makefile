@@ -10,12 +10,13 @@ DEFAULT_TX_FEE = 20
 
 DB_DIR_ACCU = $(CURDIR)/db/accu
 DB_DIR_DISTR = $(CURDIR)/db/distr
-DB_DIR = $(DB_DIR_DISTR)
+DB_DIR_TEST = $(CURDIR)/db/test
+DB_DIR = $(DB_DIR_TEST)#${DB_DIR_DISTR}
 # [htdf]
-REST_IP_PORT_HTDF = 47.98.194.7:1317
+REST_IP_PORT_HTDF = 192.168.10.153:1317#47.98.194.7:1317
 DB_HTDF = $(DB_DIR)/htdf.privkey
-GOV_ACC_PRIVKEY_HTDF = d3a29ac68982125f46421e2c06be95b151f3a94ca02a9edcde1d8179c0750d10
-GOV_ACC_ADDR_HTDF = htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3
+GOV_ACC_PRIVKEY_HTDF = 2f7cea4886b84f20e11c3e0a2c3cddecd6bdbba6b1bba8f3fffbb012094f46fb#d3a29ac68982125f46421e2c06be95b151f3a94ca02a9edcde1d8179c0750d10
+GOV_ACC_ADDR_HTDF = htdf1v8n8ct6djasls8ev9un7yp5m9n4chq945j8ywx#htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3
 DISTR_ACC_PRIVKEY_HTDF= c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65
 DISTR_ACC_ADDR_HTDF = htdf12sc78p9nr9s8qj06e2tqfqhlwlx0ncuq8l9gsh
 # [usdp]
@@ -101,7 +102,7 @@ privkey2addr.usdp:
 # {~ | ~} 
 #    _		>>>	Simulation
 # generate
-ACC_COUNT = 10000
+ACC_COUNT = 1000#10000
 genkey2db.multi.htdf:
 	@if ! [ -d "${DB_DIR}" ]; then mkdir ${DB_DIR}; fi
 	@python -c "from key import genkeys; genkeys('htdf',${ACC_COUNT},'${DB_HTDF}')";
@@ -113,7 +114,7 @@ genkey2db.multi.usdp:
 chkacc.all.htdf:
 	@python -c "from tx import accountinfo; print accountinfo('${DISTR_ACC_ADDR_HTDF}','${REST_IP_PORT_HTDF}')"
 	@python -c "from tx import accountinfo; print accountinfo('${GOV_ACC_ADDR_HTDF}','${REST_IP_PORT_HTDF}')"
-	@python -c "from accu import report; report(privkeyfile='${DB_HTDF}','${REST_IP_PORT_HTDF}')";
+	@python -c "from accu import report; report(privkeyfile='${DB_HTDF}',restapi='${REST_IP_PORT_HTDF}')";
 # ACC_INDEX = $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))")
 # chkacc.all.htdf.old:
 # @for index in ${ACC_INDEX}; do \
