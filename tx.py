@@ -172,18 +172,24 @@ def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testcha
     
     return b64pubkey, b64data
 
-def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',nfee=20, ngas=20000,restapi='47.98.194.7:1317'):
+def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',nfee=20, ngas=20000,restapi='47.98.194.7:1317',debug=False):
+    import time
+    start = time.time()
     from key import privkey2addr
     frompubkey,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
+    if debug: end = time.time();print('privkey2addr: %d'%int(end-start));start=end
     #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
     _, naccnumber, nsequence = accountinfo(fromaddr,restapi)
+    if debug: end = time.time();print('accountinfo: %d'%int(end-start));start=end
     if naccnumber < 0 or nsequence < 0: return
     print('account_number : %d' % naccnumber)
     print('sequence: %d' % nsequence)
     #-------------------------- 步骤2: 签名 -----------------------------------------
     b64PubKey, b64Data = sign(hrp, fromprivkey, toaddr, namount,nsequence, naccnumber,chainid,nfee,ngas)
+    if debug: end = time.time();print('sign: %d'%int(end-start));start=end
     #-------------------------- 步骤3: 拼装广播数据 -----------------------------------------
     broadcast(fromaddr,toaddr,namount,nfee,ngas,b64PubKey,b64Data,restapi)
+    if debug: end = time.time();print('broadcast: %d'%int(end-start));start=end
     
 if __name__ == "__main__":
     fromprivkey = 'c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65'
