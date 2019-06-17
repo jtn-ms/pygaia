@@ -1,0 +1,9 @@
+{
+    "rest-server":"47.98.194.7:1317",
+    "chain-id":"testchain",
+    "default-gas":200000,
+    "default-fee":20,
+    "mother-key":"c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65",
+    "father-key":"d3a29ac68982125f46421e2c06be95b151f3a94ca02a9edcde1d8179c0750d10",
+    "child-key-path":"db/accu/htdf.privkey"
+}
