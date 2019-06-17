@@ -4,28 +4,46 @@
 ## database file ######################################################################################################
 ## htdf	htdf1yc8xyy47j3ysq5dzwlhd48mtueg0vrhz4e0e82	725f8dce588fd7c5e485a4d37e1236f5fdbbf51754187f253ef947f09e4e6d98 ##
 #######################################################################################################################
-CHAIN_ID = testchain
-DEFAULT_TX_GAS = 200000
-DEFAULT_TX_FEE = 20
-
-DB_DIR_ACCU = $(CURDIR)/db/accu
-DB_DIR_DISTR = $(CURDIR)/db/distr
-DB_DIR_TEST = $(CURDIR)/db/test
-DB_DIR = $(DB_DIR_TEST)#${DB_DIR_DISTR}
+#					   children
+#			  		 |----------|	
+#	mother(facet) ---|----------|--- father(gather)
+#			  		 |~~~~~~~~~~|
+#			  		 |----------|		
+HTDF_CONFIG_FILE = $(CURDIR)/config/htdf.test.json
+USDP_CONFIG_FILE = $(CURDIR)/config/usdp.test.json
 # [htdf]
-REST_IP_PORT_HTDF = 47.98.194.7:1317
-DB_HTDF = $(DB_DIR)/htdf.privkey
-GOV_ACC_PRIVKEY_HTDF = d3a29ac68982125f46421e2c06be95b151f3a94ca02a9edcde1d8179c0750d10
-GOV_ACC_ADDR_HTDF = htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3
-DISTR_ACC_PRIVKEY_HTDF= c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65
-DISTR_ACC_ADDR_HTDF = htdf12sc78p9nr9s8qj06e2tqfqhlwlx0ncuq8l9gsh
+HTDF_REST_SERVER = $(findkey rest-server ${HTDF_CONFIG_FILE})
+HTDF_CHAIN_ID = $(findkey chain-id ${HTDF_CONFIG_FILE})
+HTDF_DEFAULT_TX_GAS = $(findkey default-gas ${HTDF_CONFIG_FILE})
+HTDF_DEFAULT_TX_FEE = $(findkey default-fee ${HTDF_CONFIG_FILE})
+HTDF_DB_KEY = $(findkey child-key-path ${HTDF_CONFIG_FILE})
+HTDF_GOV_ACC_PRIVKEY = $(findkey father-key ${HTDF_CONFIG_FILE})
+HTDF_GOV_ACC_ADDR = $(python -c "from key import privkey2addr; print privkey2addr('${HTDF_GOV_ACC_PRIVKEY}',hrp='htdf')")
+HTDF_DISTR_ACC_PRIVKEY= $(findkey mother-key ${HTDF_CONFIG_FILE})
+HTDF_DISTR_ACC_ADDR = $(python -c "from key import privkey2addr; print privkey2addr('${HTDF_DISTR_ACC_PRIVKEY}',hrp='htdf')")
 # [usdp]
-REST_IP_PORT_USDP = 47.75.88.24:1317
-DB_USDP = $(DB_DIR)/usdp.privkey
-GOV_ACC_PRIVKEY_USDP = 056e136f5c35ce6ad4fad2c5e50c26f1d9664995f96d1dd0b4c035a9c57d919f
-GOV_ACC_ADDR_USDP = usdp1gfcl4a3sp0j50hxg4ngtt36guk66xnz42h085e
-DISTR_ACC_PRIVKEY_USDP= 28fb2d33f42c29031ea5820951d89070dc1f2631bb92e49cf9dda9b48a164d48
-DISTR_ACC_ADDR_USDP = usdp1vwhmsa58xd5ehymexedlmrmcyje0wmsdtf30ly
+USDP_REST_SERVER = $(findkey rest-server ${USDP_CONFIG_FILE})
+USDP_CHAIN_ID = $(findkey chain-id ${USDP_CONFIG_FILE})
+USDP_DEFAULT_TX_GAS = $(findkey default-gas ${USDP_CONFIG_FILE})
+USDP_DEFAULT_TX_FEE = $(findkey default-fee ${USDP_CONFIG_FILE})
+USDP_DB_KEY = $(findkey child-key-path ${USDP_CONFIG_FILE})
+USDP_GOV_ACC_PRIVKEY = 056e136f5c35ce6ad4fad2c5e50c26f1d9664995f96d1dd0b4c035a9c57d919f
+USDP_GOV_ACC_ADDR = usdp1gfcl4a3sp0j50hxg4ngtt36guk66xnz42h085e
+USDP_DISTR_ACC_PRIVKEY= 28fb2d33f42c29031ea5820951d89070dc1f2631bb92e49cf9dda9b48a164d48
+USDP_DISTR_ACC_ADDR = usdp1vwhmsa58xd5ehymexedlmrmcyje0wmsdtf30ly
+
+# CHECK
+check:
+	@echo ${HTDF_REST_SERVER}
+	@echo ${HTDF_CHAIN_ID}
+	@echo ${HTDF_DEFAULT_TX_GAS}
+	@echo ${HTDF_DB_KEY}
+	@echo ${HTDF_GOV_ACC_PRIVKEY}
+	@echo ${HTDF_DISTR_ACC_PRIVKEY}
+	@echo ${HTDF_GOV_ACC_ADDR}
+	@echo ${HTDF_DISTR_ACC_ADDR}
+
+
 #+ &&&&& 
 #+{@ | @}
 #++  _  +	>>>	Main
@@ -37,7 +55,7 @@ accu.htdf:
 														chainid='${CHAIN_ID}',\
 														ndefault_gas=${DEFAULT_TX_GAS},\
 														ndefault_fee=${DEFAULT_TX_FEE})";
-ACCU_AMOUNT = 10000#satoshi, defautl:None
+ACCU_AMOUNT = 10000#satoshi, default:None
 accu.usdp:
 	@python -c "from accu import accumulate; accumulate(toaddr='${GOV_ACC_ADDR_USDP}',\
 														privkeyfile='${DB_USDP}',\
