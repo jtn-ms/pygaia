@@ -14,24 +14,29 @@ def ecsign(rawhash, key):
         s = signature[32:64]
         return r, s
 
-def accountinfo(addr,restapi='47.98.194.7:1317',debug=False):
+def accountinfo(address,restapi='47.98.194.7:1317',debug=False):
     #获取地址的一些信息, 用于签名
     #此demo仅用于提供参考, 方便理解, 实际生产环境中
     #最核心的是 sequence,  在生产环境中, 如果进行大批量转账, 每笔交易要固定sequence, 而不要从节点获取!
     #固定sequence, 防止因为网络拥堵, 节点数据不同步,导致重复转账的问题
-    nBalance, nAccountNumber,nSequence = -1,-1,-1
+    balance, nAccountNumber,nSequence = -1,-1,-1
     try:
-        rsp =  requests.get('http://%s/auth/accounts/%s' % (restapi.strip(), addr.strip()))
+        rsp =  requests.get('http://%s/auth/accounts/%s' % (restapi.strip(), address.strip()))
         rspJson = rsp.json()
-        nBalance = float(rspJson['value']['coins'][0]['amount']) if rspJson['value']['coins'] else -2
+        balance = float(rspJson['value']['coins'][0]['amount']) if rspJson['value']['coins'] else -2
         nAccountNumber = int(rspJson['value']['account_number'], 10)
         nSequence = int(rspJson['value']['sequence'], 10)
     except Exception as e:
         #如果from地址不存在, 会返回  204错误
         if rsp.status_code == 204: print("from 地址, 不存在交易, 余额为0")
         else: print (e)
-    if debug: print('{0}\t\t{1}'.format(addr,nBalance))
-    return nBalance,nAccountNumber,nSequence
+    if debug and balance > 0: print('{0}\t\t{1}'.format(address,balance))
+    return {
+            "address":address,
+            "balance":balance,
+            "accountnumber":nAccountNumber,
+            "sequence":nSequence
+            }
 
 def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi='47.98.194.7:1317'):
     
@@ -179,7 +184,8 @@ def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',nfee=20, ngas
     frompubkey,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
     if debug: end = time.time();print('privkey2addr: %d'%int(end-start));start=end
     #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
-    _, naccnumber, nsequence = accountinfo(fromaddr,restapi)
+    rsp = accountinfo(fromaddr,restapi)
+    naccnumber, nsequence = rsp["accountnumber"],rsp["sequence"]
     if debug: end = time.time();print('accountinfo: %d'%int(end-start));start=end
     if naccnumber < 0 or nsequence < 0: return
     print('account_number : %d' % naccnumber)

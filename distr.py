@@ -19,7 +19,7 @@ def count(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317',debug=False):
     nonzeros,zeros = [],[]
     for item in getitems(privkeyfile):
         addr,privkey=item[1],item[2]
-        try: balance = accountinfo(addr,restapi)[0]
+        try: balance = accountinfo(addr,restapi)["balance"]
         except: continue
         nonzeros.append([addr,balance,privkey]) if balance > 0 else zeros.append(addr)
     if debug: print(len(nonzeros),len(zeros))

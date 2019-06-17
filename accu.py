@@ -28,8 +28,7 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
         try: frompubkey,fromaddr = privkey2addr(fromprivkey,hrp)
         except: continue
         if fromaddr != item[1] or hrp != fromaddr[:4]: continue
-        balance, _, _ = accountinfo(fromaddr,restapi)
-        namount = balance * (10**8) - ndefault_fee#以satoshi为单位,    1USDP  = 10^8 satoshi    1HTDF=10^8 satoshi
+        namount = accountinfo(fromaddr,restapi)["balance"] * (10**8) - ndefault_fee#以satoshi为单位,    1USDP  = 10^8 satoshi    1HTDF=10^8 satoshi
         if namount < 0: continue
         #try: threading.Thread(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
         try:
@@ -49,7 +48,7 @@ def report(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317'):
     prod_x=partial(accountinfo, debug=True)
     prod_y=partial(prod_x, restapi=restapi)
     outputs = pool.map(prod_y,params)
-    print(sum(output[0] for output in outputs if output[0]>0))
+    print(sum(output["balance"] for output in outputs if output["balance"]>0))
     
 if __name__ == "__main__":
     # getitems('db/htdf.privkey')

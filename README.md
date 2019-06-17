@@ -4,10 +4,12 @@
     Distributor: DB_DIR=$(DB_DIR_DISTR)
 
 ## Available Commands
+#### htdf
     make accu.htdf
     make chkacc.all.htdf
     make distr.htdf
     make flood.htdf
+#### usdp
 ## Accumulate
 When some variables need to change, you could edit Makefile and modify the corresponding parts.
 #### 1. to set privatekey db files

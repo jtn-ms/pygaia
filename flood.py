@@ -1,5 +1,5 @@
 
-from tx import transfer,accountinfo
+from tx import transfer
 from key import privkey2addr
 from accu import getitems
 
