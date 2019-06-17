@@ -69,8 +69,7 @@ accu.usdp:
 														restapi='${USDP_REST_SERVER}',\
 														chainid='${USDP_CHAIN_ID}',\
 														ndefault_gas=${USDP_DEFAULT_TX_GAS},\
-														ndefault_fee=${USDP_DEFAULT_TX_FEE},\
-														nAmount=${ACCU_AMOUNT})";
+														ndefault_fee=${USDP_DEFAULT_TX_FEE})";
 
 #  %%%%%
 # {@ | ~} 
