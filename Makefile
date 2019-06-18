@@ -9,8 +9,8 @@
 #	mother(facet) ---|----------|--- father(gather)
 #			  		 |~~~~~~~~~~|
 #			  		 |----------|		
-HTDF_CONFIG_FILE = $(CURDIR)/config/test/htdf.test.json
-USDP_CONFIG_FILE = $(CURDIR)/config//test/usdp.test.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/htdf.json
+USDP_CONFIG_FILE = $(CURDIR)/config/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
 HTDF_CHAIN_ID = $$(findkey chain-id ${HTDF_CONFIG_FILE})
@@ -18,7 +18,8 @@ HTDF_DEFAULT_TX_GAS = $$(findkey default-gas ${HTDF_CONFIG_FILE})
 HTDF_DEFAULT_TX_FEE = $$(findkey default-fee ${HTDF_CONFIG_FILE})
 HTDF_DB_KEY = $$(findkey child-key-path ${HTDF_CONFIG_FILE})
 HTDF_GOV_KEY = $$(findkey father-key ${HTDF_CONFIG_FILE})
-HTDF_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${HTDF_GOV_KEY}',hrp='htdf')[1]")
+# HTDF_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${HTDF_GOV_KEY}',hrp='htdf')[1]")
+HTDF_GOV_ADDR = $$(findkey father-addr ${HTDF_CONFIG_FILE})
 HTDF_DISTR_KEY= $$(findkey mother-key ${HTDF_CONFIG_FILE})
 HTDF_DISTR_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${HTDF_DISTR_KEY}',hrp='htdf')[1]")
 # [usdp]
@@ -28,8 +29,9 @@ USDP_DEFAULT_TX_GAS = $$(findkey default-gas ${USDP_CONFIG_FILE})
 USDP_DEFAULT_TX_FEE = $$(findkey default-fee ${USDP_CONFIG_FILE})
 USDP_DB_KEY = $$(findkey child-key-path ${USDP_CONFIG_FILE})
 USDP_GOV_KEY = $$(findkey father-key ${USDP_CONFIG_FILE})
+# USDP_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${USDP_GOV_KEY}',hrp='usdp')[1]")
+USDP_GOV_ADDR = $$(findkey father-addr ${USDP_CONFIG_FILE})
 USDP_DISTR_KEY= $$(findkey mother-key ${USDP_CONFIG_FILE})
-USDP_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${USDP_GOV_KEY}',hrp='usdp')[1]")
 USDP_DISTR_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${USDP_DISTR_KEY}',hrp='usdp')[1]")
 
 # CHECK
@@ -136,7 +138,7 @@ genkey2db.multi.usdp:
 
 
 chkacc.all.htdf:
-	@python -c "from tx import accountinfo; print accountinfo('${HTDF_DISTR_ADDR}','${HTDF_REST_SERVER}')"
+	# @python -c "from tx import accountinfo; print accountinfo('${HTDF_DISTR_ADDR}','${HTDF_REST_SERVER}')"
 	@python -c "from tx import accountinfo; print accountinfo('${HTDF_GOV_ADDR}','${HTDF_REST_SERVER}')"
 	@python -c "from accu import report; report(privkeyfile='${HTDF_DB_KEY}',restapi='${HTDF_REST_SERVER}')";
 # ACC_INDEX = $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))")
@@ -147,7 +149,7 @@ chkacc.all.htdf:
 #  			Process(target=accountinfo,args=('$$addr','${HTDF_REST_SERVER}',True)).start();"; done
 
 chkacc.all.usdp:
-	@python -c "from tx import accountinfo; print accountinfo('${USDP_DISTR_ADDR}','${USDP_REST_SERVER}')"
+	# @python -c "from tx import accountinfo; print accountinfo('${USDP_DISTR_ADDR}','${USDP_REST_SERVER}')"
 	@python -c "from tx import accountinfo; print accountinfo('${USDP_GOV_ADDR}','${USDP_REST_SERVER}')"
 	@python -c "from accu import report; report(privkeyfile='${USDP_DB_KEY}',restapi='${USDP_REST_SERVER}')";
 # chkacc.all.usdp.old:
