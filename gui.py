@@ -35,7 +35,10 @@ class Tab(QTabWidget):
     
     def act_fileopen(self):
         filepath,extensions = QFileDialog.getOpenFileName(self, r'File Open','',"configuration file (*.json)")
- 
+
+    def act_filesave(self):
+        pass
+         
     def closeEvent(self, event):
         
         if self.isfinished:
