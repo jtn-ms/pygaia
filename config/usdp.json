@@ -1,0 +1,8 @@
+{
+    "rest-server":"47.75.88.24:1317",
+    "chain-id":"testchain",
+    "default-gas":200000,
+    "default-fee":20,
+    "father-addr":"usdp1vwhmsa58xd5ehymexedlmrmcyje0wmsdtf30ly",
+    "child-key-path":"db/usdp.privkey"
+}
