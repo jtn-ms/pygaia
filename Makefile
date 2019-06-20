@@ -5,10 +5,10 @@
 ## htdf	htdf1yc8xyy47j3ysq5dzwlhd48mtueg0vrhz4e0e82	725f8dce588fd7c5e485a4d37e1236f5fdbbf51754187f253ef947f09e4e6d98 ##
 #######################################################################################################################
 #					   children
-#			  		 |----------|	
-#	mother(facet) ---|----------|--- father(gather)
-#			  		 |~~~~~~~~~~|
-#			  		 |----------|		
+#			  		  |---------->|	
+#	mother(facet) -->-|---------->|-->- father(gather)
+#			  		  |~~~~~~~~~~~|
+#			  		  |---------->|		
 HTDF_CONFIG_FILE = $(CURDIR)/config/10/htdf.json
 USDP_CONFIG_FILE = $(CURDIR)/config/10/usdp.json
 # [htdf]
