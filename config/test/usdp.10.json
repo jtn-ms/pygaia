@@ -5,5 +5,5 @@
     "default-fee":20,
     "mother-key":"056e136f5c35ce6ad4fad2c5e50c26f1d9664995f96d1dd0b4c035a9c57d919f",
     "father-key":"28fb2d33f42c29031ea5820951d89070dc1f2631bb92e49cf9dda9b48a164d48",
-    "child-key-path":"db/accu/usdp.privkey"
+    "child-key-path":"db/10/usdp.privkey"
 }

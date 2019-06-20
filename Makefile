@@ -9,8 +9,8 @@
 #	mother(facet) ---|----------|--- father(gather)
 #			  		 |~~~~~~~~~~|
 #			  		 |----------|		
-HTDF_CONFIG_FILE = $(CURDIR)/config/htdf.json
-USDP_CONFIG_FILE = $(CURDIR)/config/usdp.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/test/htdf.10.json
+USDP_CONFIG_FILE = $(CURDIR)/config/test/usdp.10.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
 HTDF_CHAIN_ID = $$(findkey chain-id ${HTDF_CONFIG_FILE})
