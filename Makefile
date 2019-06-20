@@ -9,8 +9,8 @@
 #	mother(facet) ---|----------|--- father(gather)
 #			  		 |~~~~~~~~~~|
 #			  		 |----------|		
-HTDF_CONFIG_FILE = $(CURDIR)/config/test/htdf.10.json
-USDP_CONFIG_FILE = $(CURDIR)/config/test/usdp.10.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/10/htdf.json
+USDP_CONFIG_FILE = $(CURDIR)/config/10/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
 HTDF_CHAIN_ID = $$(findkey chain-id ${HTDF_CONFIG_FILE})
@@ -18,8 +18,8 @@ HTDF_DEFAULT_TX_GAS = $$(findkey default-gas ${HTDF_CONFIG_FILE})
 HTDF_DEFAULT_TX_FEE = $$(findkey default-fee ${HTDF_CONFIG_FILE})
 HTDF_DB_KEY = $$(findkey child-key-path ${HTDF_CONFIG_FILE})
 HTDF_GOV_KEY = $$(findkey father-key ${HTDF_CONFIG_FILE})
-# HTDF_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${HTDF_GOV_KEY}',hrp='htdf')[1]")
-HTDF_GOV_ADDR = $$(findkey father-addr ${HTDF_CONFIG_FILE})
+HTDF_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${HTDF_GOV_KEY}',hrp='htdf')[1]")
+#HTDF_GOV_ADDR = $$(findkey father-addr ${HTDF_CONFIG_FILE})
 HTDF_DISTR_KEY= $$(findkey mother-key ${HTDF_CONFIG_FILE})
 HTDF_DISTR_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${HTDF_DISTR_KEY}',hrp='htdf')[1]")
 # [usdp]
@@ -29,8 +29,8 @@ USDP_DEFAULT_TX_GAS = $$(findkey default-gas ${USDP_CONFIG_FILE})
 USDP_DEFAULT_TX_FEE = $$(findkey default-fee ${USDP_CONFIG_FILE})
 USDP_DB_KEY = $$(findkey child-key-path ${USDP_CONFIG_FILE})
 USDP_GOV_KEY = $$(findkey father-key ${USDP_CONFIG_FILE})
-# USDP_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${USDP_GOV_KEY}',hrp='usdp')[1]")
-USDP_GOV_ADDR = $$(findkey father-addr ${USDP_CONFIG_FILE})
+USDP_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${USDP_GOV_KEY}',hrp='usdp')[1]")
+#USDP_GOV_ADDR = $$(findkey father-addr ${USDP_CONFIG_FILE})
 USDP_DISTR_KEY= $$(findkey mother-key ${USDP_CONFIG_FILE})
 USDP_DISTR_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${USDP_DISTR_KEY}',hrp='usdp')[1]")
 
