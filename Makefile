@@ -8,7 +8,7 @@
 #			  		  |---------->|	
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
-#			  		  |---------->|		
+#			  		  |---------->|
 HTDF_CONFIG_FILE = $(CURDIR)/config/10/htdf.json
 USDP_CONFIG_FILE = $(CURDIR)/config/10/usdp.json
 # [htdf]
