@@ -58,7 +58,7 @@ check:
 #++  _  +	>>>	Main
 # accumulate 
 accu.htdf:
-	@python -c "from accu import accumulate; accumulate(toaddr='${HTDF_GOV_ADDR}',\
+	@python -c "from accu import accumulateEx; accumulateEx(toaddr='${HTDF_GOV_ADDR}',\
 														privkeyfile='${HTDF_DB_KEY}',\
 														restapi='${HTDF_REST_SERVER}',\
 														chainid='${HTDF_CHAIN_ID}',\
@@ -66,7 +66,7 @@ accu.htdf:
 														ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
 ACCU_AMOUNT = 10000#satoshi, default:None
 accu.usdp:
-	@python -c "from accu import accumulate; accumulate(toaddr='${USDP_GOV_ADDR}',\
+	@python -c "from accu import accumulateEx; accumulateEx(toaddr='${USDP_GOV_ADDR}',\
 														privkeyfile='${USDP_DB_KEY}',\
 														restapi='${USDP_REST_SERVER}',\
 														chainid='${USDP_CHAIN_ID}',\

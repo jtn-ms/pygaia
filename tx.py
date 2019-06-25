@@ -186,6 +186,7 @@ def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',nfee=20, ngas
     #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
     rsp = accountinfo(fromaddr,restapi)
     naccnumber, nsequence = rsp["accountnumber"],rsp["sequence"]
+    if namount < 0: namount = rsp["balance"] * (10**8) - nfee # transfer all balance if namount < 0
     if debug: end = time.time();print('accountinfo: %d'%int(end-start));start=end
     if naccnumber < 0 or nsequence < 0: return
     print('account_number : %d' % naccnumber)
