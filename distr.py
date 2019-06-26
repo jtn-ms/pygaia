@@ -37,6 +37,7 @@ def distrex(hrp='htdf',privkeyfile='htdf.privkey',
             fromaddr,balance,fromprivkey = nonzero
             namount = balance * (10**8) - ndefault_fee
             if namount < 0: continue
+            if index >= len(zeros): break
             toaddr=zeros[index]
             try: Process(target=transfer,args=(hrp,fromprivkey, toaddr, int(namount/2), chainid, ndefault_fee, ndefault_gas,restapi)).start()
             except: continue

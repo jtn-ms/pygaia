@@ -4,5 +4,5 @@
     "default-gas":200000,
     "default-fee":20,
     "father-addr":"htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3",
-    "child-key-path":"db/htdf.privkey"
+    "child-key-path":"db/10000/htdf.privkey"
 }
