@@ -32,7 +32,7 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
         if namount < 0: continue
         #try: threading.Thread(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
         try:
-            if nAmount and type(nAmount,int): 
+            if nAmount and isinstance(nAmount,int): 
                 Process(target=transfer,args=(hrp,fromprivkey, toaddr, nAmount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
             else:
                 Process(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
@@ -46,7 +46,7 @@ def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
         hrp,fromaddr,fromprivkey = item[0].lower(), item[1], item[2]
         #try: threading.Thread(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
         try:
-            if nAmount and type(nAmount,int): 
+            if nAmount and isinstance(nAmount,int): 
                 Process(target=transfer,args=(hrp,fromprivkey, toaddr, nAmount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
             else:
                 Process(target=transfer,args=(hrp,fromprivkey, toaddr, -1, chainid, ndefault_fee, ndefault_gas,restapi)).start()

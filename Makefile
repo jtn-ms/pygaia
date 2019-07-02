@@ -9,8 +9,8 @@
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
-HTDF_CONFIG_FILE = $(CURDIR)/config/1000/htdf.json
-USDP_CONFIG_FILE = $(CURDIR)/config/1000/usdp.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/100/htdf.json
+USDP_CONFIG_FILE = $(CURDIR)/config/100/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
 HTDF_CHAIN_ID = $$(findkey chain-id ${HTDF_CONFIG_FILE})
@@ -80,10 +80,11 @@ accu.usdp:
 # In:  htdf1yc8xyy47j3ysq5dzwlhd48mtueg0vrhz4e0e82,100000
 # Out: 
 transfer.one.htdf:
+	@echo ${HTDF_DISTR_KEY}
 	@read -p "Type Toaddress: " toaddr; \
 	 read -p "Type Amount: " amount; \
 	 python -c "from tx import transfer; transfer(hrp='htdf',\
-	 											  fromprivkey='${HTDF_GOV_KEY}',\
+	 											  fromprivkey='${HTDF_DISTR_KEY}',\
 												  toaddr='$$toaddr',\
 												  namount=$$amount,\
 												  restapi='${HTDF_REST_SERVER}',\
@@ -115,6 +116,13 @@ genkey.one.usdp:
 	@python -c "from key import genkey; print genkey('usdp')"
 genkey.one.htdf:
 	@python -c "from key import genkey; print genkey('htdf')"
+# generate key with keystring
+genkey.key.usdp:
+	@read -p "Type KeyString: " keystring; \
+	 python -c "from key import genkey; print genkey('usdp','$$keystring')"
+genkey.key.htdf:
+	@read -p "Type KeyString: " keystring; \
+	 python -c "from key import genkey; print genkey('htdf','$$keystring')"
 
 # convert
 privkey2addr.htdf:
@@ -128,12 +136,10 @@ privkey2addr.usdp:
 # {~ | ~} 
 #    _		>>>	Simulation
 # generate
-ACC_COUNT = 1000#10000
+ACC_COUNT = 100#10000
 genkey2db.multi.htdf:
-	@if ! [ -d "${DB_DIR}" ]; then mkdir ${DB_DIR}; fi
 	@python -c "from key import genkeys; genkeys('htdf',${ACC_COUNT},'${HTDF_DB_KEY}')";
 genkey2db.multi.usdp:
-	@if ! [ -d "${DB_DIR}" ]; then mkdir ${DB_DIR}; fi
 	@python -c "from key import genkeys; genkeys('usdp',${ACC_COUNT},'${USDP_DB_KEY}')";
 
 
