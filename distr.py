@@ -36,13 +36,32 @@ def distrex(hrp='htdf',privkeyfile='htdf.privkey',
         for index,nonzero in enumerate(nonzeros):
             fromaddr,balance,fromprivkey = nonzero
             namount = balance * (10**8) - ndefault_fee
-            if namount < 0: continue
+            if namount <= 0: continue
             if index >= len(zeros): break
             toaddr=zeros[index]
             try: Process(target=transfer,args=(hrp,fromprivkey, toaddr, int(namount/2), chainid, ndefault_fee, ndefault_gas,restapi)).start()
             except: continue
         nonzeros,zeros = count(privkeyfile,restapi)
         num += 1
-    
+
+# db to db
+def distrp2p(hrp='htdf',fromdb='db/100/htdf.privkey',todb='db/10000/htdf.privkey',
+            restapi='47.98.194.7:1317', chainid='testchain',
+            ndefault_gas=200000,ndefault_fee=20):
+    nonzeros,_ = count(fromdb,restapi)
+    _,zeros = count(todb,restapi)
+    num = 0
+    while len(zeros)>0 and num < 10:
+        for index,nonzero in enumerate(nonzeros):
+            fromaddr,balance,fromprivkey = nonzero
+            namount = balance * (10**8) - ndefault_fee
+            if namount <= 0: continue
+            if index >= len(zeros): break
+            toaddr=zeros[index]
+            try: Process(target=transfer,args=(hrp,fromprivkey, toaddr, int(namount/2), chainid, ndefault_fee, ndefault_gas,restapi)).start()
+            except: continue
+        _,zeros = count(todb,restapi)
+        num += 1
+
 if __name__ == "__main__":
-    distr('db/distr/htdf.privkey')
+    distrp2p(restapi='120.79.130.139:1317')

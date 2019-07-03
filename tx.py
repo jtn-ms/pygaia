@@ -28,8 +28,9 @@ def accountinfo(address,restapi='47.98.194.7:1317',debug=False):
         nSequence = int(rspJson['value']['sequence'], 10)
     except Exception as e:
         #如果from地址不存在, 会返回  204错误
-        if rsp.status_code == 204: print("from 地址, 不存在交易, 余额为0")
-        else: print (e)
+        #if rsp.status_code == 204: print("from 地址, 不存在交易, 余额为0")
+        #else: print (e)
+        pass
     if debug and balance > 0: print('{0}\t\t{1}'.format(address,balance))
     return {
             "address":address,

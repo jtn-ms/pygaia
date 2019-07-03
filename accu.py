@@ -41,7 +41,7 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
 def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
                  privkeyfile = 'htdf.privkey',
                  restapi='47.98.194.7:1317', chainid='testchain',
-                 ndefault_gas=200000,ndefault_fee=20,nAmount=10000000):
+                 ndefault_gas=200000,ndefault_fee=20,nAmount=1000):
     repeats = 500
     for i in range(repeats):
         for item in getitems(privkeyfile):
