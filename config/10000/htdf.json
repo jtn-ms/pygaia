@@ -1,9 +1,9 @@
 {
-    "rest-server":"120.79.130.139:1317",
+    "rest-server":"39.108.110.142:1317",
     "chain-id":"testchain",
     "default-gas":200000,
     "default-fee":20,
     "mother-key":"252817536cb909ce4ea317c733f54719b9c23de2854f9fe131d0198b08f46cf2",
-    "father-key":"d3a29ac68982125f46421e2c06be95b151f3a94ca02a9edcde1d8179c0750d10",
+    "father-key":"a494f0f6756e8e7fefeeda13b7f66ca44c217621ef2bf605194f5b036d7472f5",
     "child-key-path":"db/10000/htdf.privkey"
 }
