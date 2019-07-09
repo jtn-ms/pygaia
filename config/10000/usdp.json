@@ -1,9 +1,9 @@
 {
-    "rest-server":"47.75.88.24:1317",
+    "rest-server":"127.0.0.1:1317",
     "chain-id":"testchain",
     "default-gas":200000,
     "default-fee":20,
-    "mother-key":"056e136f5c35ce6ad4fad2c5e50c26f1d9664995f96d1dd0b4c035a9c57d919f",
+    "mother-key":"252817536cb909ce4ea317c733f54719b9c23de2854f9fe131d0198b08f46cf2",
     "father-key":"a494f0f6756e8e7fefeeda13b7f66ca44c217621ef2bf605194f5b036d7472f5",
     "child-key-path":"db/10000/usdp.privkey"
 }

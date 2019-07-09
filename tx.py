@@ -52,7 +52,11 @@ def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi
                     "Amount": [{
                         "denom": "satoshi",
                         "amount": "%d"
-                    }]
+                    }],
+                    "Data": "",
+                    "Gas": "0",
+                    "GasPrice": "0",
+                    "GasLimit": "0"
                 }
             }],
             "fee": {
@@ -86,6 +90,7 @@ def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi
     import json
     bcastData = {'tx' :  bcastData }   #rpc参数
     postData = json.dumps(bcastData)
+    return
     rsp = requests.post('http://%s/hs/broadcast'%restapi,  postData)
 
 
@@ -125,7 +130,11 @@ def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testcha
 			"amount": "%d",\
             "denom": "satoshi"\
 		}],\
-		"From": "%s",\
+        "Data": "",\
+        "From": "%s",\
+        "Gas": 0,\
+        "GasLimit": 0,\
+        "GasPrice": 0,\
 		"To": "%s"\
 	}],\
     "sequence": "%d"\
