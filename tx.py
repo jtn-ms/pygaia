@@ -90,7 +90,6 @@ def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi
     import json
     bcastData = {'tx' :  bcastData }   #rpc参数
     postData = json.dumps(bcastData)
-    return
     rsp = requests.post('http://%s/hs/broadcast'%restapi,  postData)
 
 
