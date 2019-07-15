@@ -1,9 +1,9 @@
 {
-    "rest-server":"47.112.96.36:1317",
+    "rest-server":"39.108.219.50:1317",
     "chain-id":"mainchain",
     "default-gas":200000,
     "default-fee":20,
-    "mother-key":"252817536cb909ce4ea317c733f54719b9c23de2854f9fe131d0198b08f46cf2",
-    "father-key":"a494f0f6756e8e7fefeeda13b7f66ca44c217621ef2bf605194f5b036d7472f5",
-    "child-key-path":"db/10/htdf.privkey"
+    "mother-key":"8bac5cce2e43ddb6f0af2e0aa893ed419af0081f61ce445fb37bc0451ad40f40",
+    "father-key":"8bac5cce2e43ddb6f0af2e0aa893ed419af0081f61ce445fb37bc0451ad40f40",
+    "child-key-path":"/home/falcon/htdf.privkey"
 }

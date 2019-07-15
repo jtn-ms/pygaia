@@ -41,9 +41,9 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
 def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
                  privkeyfile = 'htdf.privkey',
                  restapi='47.98.194.7:1317', chainid='testchain',
-                 ndefault_gas=200000,ndefault_fee=20,nAmount=1000):
-    repeats = 500
-    for i in range(repeats):
+                 ndefault_gas=200000,ndefault_fee=20,nAmount=None):
+    # repeats = 500
+    # for i in range(repeats):
         for item in getitems(privkeyfile):
             hrp,fromaddr,fromprivkey = item[0].lower(), item[1], item[2]
             #try: threading.Thread(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
@@ -53,8 +53,8 @@ def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
                 else:
                     Process(target=transfer,args=(hrp,fromprivkey, toaddr, -1, chainid, ndefault_fee, ndefault_gas,restapi)).start()
             except: print("Error: unable to start thread")
-        import time
-        time.sleep(10)
+        #import time
+        #time.sleep(10)
         
 def report(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317'):
     balance = 0

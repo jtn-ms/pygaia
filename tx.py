@@ -52,11 +52,7 @@ def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi
                     "Amount": [{
                         "denom": "satoshi",
                         "amount": "%d"
-                    }],
-                    "Data": "",
-                    "Gas": "0",
-                    "GasPrice": "0",
-                    "GasLimit": "0"
+                    }]
                 }
             }],
             "fee": {
@@ -129,11 +125,7 @@ def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testcha
 			"amount": "%d",\
             "denom": "satoshi"\
 		}],\
-        "Data": "",\
         "From": "%s",\
-        "Gas": 0,\
-        "GasLimit": 0,\
-        "GasPrice": 0,\
 		"To": "%s"\
 	}],\
     "sequence": "%d"\
@@ -193,7 +185,9 @@ def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',nfee=20, ngas
     frompubkey,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
     if debug: end = time.time();print('privkey2addr: %d'%int(end-start));start=end
     #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
+    print restapi
     rsp = accountinfo(fromaddr,restapi)
+    print rsp
     naccnumber, nsequence = rsp["accountnumber"],rsp["sequence"]
     if namount < 0: namount = rsp["balance"] * (10**8) - nfee # transfer all balance if namount < 0
     if namount < 0: print('no balance'); return
