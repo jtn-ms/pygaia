@@ -92,6 +92,19 @@ transfer.one.htdf:
 												  ngas=${HTDF_DEFAULT_TX_GAS},\
 												  nfee=${HTDF_DEFAULT_TX_FEE})";
 
+transfer.two.htdf:
+	@read -p "Type From Private Key: " fromprivkey; \
+	 read -p "Type Toaddress: " toaddr; \
+	 read -p "Type Amount: " amount; \
+	 python -c "from tx import transfer; transfer(hrp='htdf',\
+	 											  fromprivkey='$$fromprivkey',\
+												  toaddr='$$toaddr',\
+												  namount=$$amount,\
+												  restapi='${HTDF_REST_SERVER}',\
+												  chainid='${HTDF_CHAIN_ID}',\
+												  ngas=${HTDF_DEFAULT_TX_GAS},\
+												  nfee=${HTDF_DEFAULT_TX_FEE})";
+
 transfer.one.usdp:
 	@echo ${HTDF_DISTR_KEY}
 	@read -p "Type Toaddress: " toaddr; \
