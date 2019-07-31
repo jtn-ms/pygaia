@@ -10,7 +10,7 @@
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
 HTDF_CONFIG_FILE = $(CURDIR)/config/mainnet/htdf.json
-USDP_CONFIG_FILE = $(CURDIR)/config/10000/usdp.json
+USDP_CONFIG_FILE = $(CURDIR)/config/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
 HTDF_CHAIN_ID = $$(findkey chain-id ${HTDF_CONFIG_FILE})
@@ -111,6 +111,19 @@ transfer.one.usdp:
 	 read -p "Type Amount: " amount; \
 	 python -c "from tx import transfer; transfer(hrp='usdp',\
 	 											  fromprivkey='${USDP_DISTR_KEY}',\
+												  toaddr='$$toaddr',\
+												  namount=$$amount,\
+												  restapi='${USDP_REST_SERVER}',\
+												  chainid='${USDP_CHAIN_ID}',\
+												  ngas=${USDP_DEFAULT_TX_GAS},\
+												  nfee=${USDP_DEFAULT_TX_FEE})";
+
+transfer.two.usdp:
+	@read -p "Type From Private Key: " fromprivkey; \
+	 read -p "Type Toaddress: " toaddr; \
+	 read -p "Type Amount: " amount; \
+	 python -c "from tx import transfer; transfer(hrp='usdp',\
+	 											  fromprivkey='$$fromprivkey',\
 												  toaddr='$$toaddr',\
 												  namount=$$amount,\
 												  restapi='${USDP_REST_SERVER}',\

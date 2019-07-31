@@ -1,5 +1,5 @@
 {
-    "rest-server":"47.75.88.24:1317",
+    "rest-server":"47.105.214.194:1317",
     "chain-id":"testchain",
     "default-gas":200000,
     "default-fee":20,
