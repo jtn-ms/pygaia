@@ -106,7 +106,7 @@ transfer.two.htdf:
 												  nfee=${HTDF_DEFAULT_TX_FEE})";
 
 transfer.one.usdp:
-	@echo ${HTDF_DISTR_KEY}
+	@echo ${USDP_DISTR_KEY}
 	@read -p "Type Toaddress: " toaddr; \
 	 read -p "Type Amount: " amount; \
 	 python -c "from tx import transfer; transfer(hrp='usdp',\
