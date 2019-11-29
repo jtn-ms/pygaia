@@ -39,7 +39,7 @@ def accountinfo(address,restapi='47.98.194.7:1317',debug=False):
             "sequence":nSequence
             }
 
-def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi='47.98.194.7:1317'):
+def broadcast(fromaddr, toaddr, namount, gasprice, gaswanted, b64PubKey, b64Data, restapi='47.98.194.7:1317'):
     
     strBroadcast = """{
         "type": "auth/StdTx",
@@ -52,15 +52,15 @@ def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi
                     "Amount": [{
                         "denom": "satoshi",
                         "amount": "%d"
-                    }]
+                    }],
+                    "Data": "",
+                    "GasPrice": "%d",
+                    "GasWanted": "%d"
                 }
             }],
             "fee": {
-                "amount": [{
-                    "denom": "satoshi",
-                    "amount": "%d"
-                }],
-                "gas": "%d"
+                "gas_wanted": "%d",
+                "gas_price": "%d"
             },
             "signatures": [{
                 "pub_key": {
@@ -71,7 +71,7 @@ def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi
             }],
             "memo": ""
         }
-    }""" %(fromaddr, toaddr , namount, nfee, ngas, b64PubKey, b64Data)
+    }""" %(fromaddr, toaddr , namount, gasprice, gaswanted, gaswanted, gasprice, b64PubKey, b64Data)
 
     #去掉多余的空白字符
     strBroadcast = strBroadcast.replace(' ', '').replace('\t', '').replace('\n', '')
@@ -104,7 +104,7 @@ def broadcast(fromaddr, toaddr, namount, nfee, ngas, b64PubKey, b64Data, restapi
         print(e)
         return
 
-def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testchain',nfee=20,ngas=20000):
+def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testchain',gasprice=100,gaswanted=20000):
     from key import privkey2addr
     frompubkey,fromaddr = privkey2addr(fromprivkey,hrp)
     
@@ -113,11 +113,8 @@ def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testcha
     "account_number": "%d",\
 	"chain_id": "%s",\
 	"fee": {\
-		"amount": [{\
-			"amount": "%d",\
-			"denom": "satoshi"\
-		}],\
-		"gas": "%d"\
+        "gas_price": "%d",\
+		"gas_wanted": "%d"\
 	},\
     "memo": "",\
 	"msgs": [{\
@@ -125,11 +122,14 @@ def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testcha
 			"amount": "%d",\
             "denom": "satoshi"\
 		}],\
+        "Data": "",\
         "From": "%s",\
+        "GasPrice": %s,\
+        "GasWanted": %s,\
 		"To": "%s"\
 	}],\
     "sequence": "%d"\
-    }"""  % (naccnumber, chainid, nfee, ngas, namount, fromaddr, toaddr , nsequence)
+    }"""  % (naccnumber, chainid, gasprice, gaswanted, namount, fromaddr,gasprice,gaswanted, toaddr , nsequence)
 
     print('\n--------------------------------------\n')
     #去掉多余的空格, 制表符, 换行符
@@ -178,11 +178,11 @@ def sign(hrp,fromprivkey, toaddr, namount,nsequence, naccnumber,chainid='testcha
     
     return b64pubkey, b64data
 
-def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',nfee=20, ngas=20000,restapi='47.98.194.7:1317',debug=False):
+def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100, gaswanted=20000,restapi='47.98.194.7:1317',debug=False):
     import time
     start = time.time()
     from key import privkey2addr
-    frompubkey,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
+    _,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
     if debug: end = time.time();print('privkey2addr: %d'%int(end-start));start=end
     #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
     print restapi
@@ -196,10 +196,10 @@ def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',nfee=20, ngas
     print('account_number : %d' % naccnumber)
     print('sequence: %d' % nsequence)
     #-------------------------- 步骤2: 签名 -----------------------------------------
-    b64PubKey, b64Data = sign(hrp, fromprivkey, toaddr, namount,nsequence, naccnumber,chainid,nfee,ngas)
+    b64PubKey, b64Data = sign(hrp, fromprivkey, toaddr, namount,nsequence, naccnumber,chainid,gasprice,gaswanted)
     if debug: end = time.time();print('sign: %d'%int(end-start));start=end
     #-------------------------- 步骤3: 拼装广播数据 -----------------------------------------
-    broadcast(fromaddr,toaddr,namount,nfee,ngas,b64PubKey,b64Data,restapi)
+    broadcast(fromaddr,toaddr,namount,gasprice,gaswanted,b64PubKey,b64Data,restapi)
     if debug: end = time.time();print('broadcast: %d'%int(end-start));start=end
     
 if __name__ == "__main__":
@@ -209,10 +209,10 @@ if __name__ == "__main__":
     toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r'
     restapi = '47.98.194.7:1317'
     chainid = 'testchain'
-    ngas,nfee = 200000, 20
+    gaswanted,gasprice = 200000, 100
     nAmount = 0.001234 * (10**8)    #以satoshi为单位,    1USDP  = 10^8 satoshi    1HTDF=10^8 satoshi
     from key import privkey2addr
     print accountinfo(fromaddr)
     print privkey2addr(fromprivkey,hrp='htdf')
-    transfer('htdf',fromprivkey, toaddr, nAmount,chainid, nfee, ngas,restapi)
+    transfer('htdf',fromprivkey, toaddr, nAmount,chainid, gasprice, gaswanted,restapi)
     

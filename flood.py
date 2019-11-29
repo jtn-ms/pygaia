@@ -14,7 +14,7 @@ def flood(hrp='htdf',privkeyfile='htdf.privkey',
         senders   = accs[:len(accs)/2] if not time else accs[len(accs)/2:]
         receivers = accs[len(accs)/2:] if not time else accs[:len(accs)/2]
         for index,sender in enumerate(senders):
-            hrp,fromaddr,fromprivkey = sender
+            hrp,_,fromprivkey = sender
             toaddr=receivers[index][1]
             try: Process(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
             except: continue

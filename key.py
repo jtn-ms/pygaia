@@ -216,7 +216,7 @@ def genkeys(hrp='htdf',count=10,filepath=None):
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
     outputs = pool.map(genkey,[hrp]*count)
     for output in outputs:
-        privkey,pubkey,addr=output
+        privkey,_,addr=output
         accs.append('{0}\t{1}\t{2}\n'.format(hrp,addr,privkey))
     if filepath:
         with open(filepath,'w') as file:

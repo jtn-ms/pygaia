@@ -9,7 +9,7 @@
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
-HTDF_CONFIG_FILE = $(CURDIR)/config/mainnet/htdf.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/testnet/htdf.json
 USDP_CONFIG_FILE = $(CURDIR)/config/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
@@ -89,8 +89,8 @@ transfer.one.htdf:
 												  namount=$$amount,\
 												  restapi='${HTDF_REST_SERVER}',\
 												  chainid='${HTDF_CHAIN_ID}',\
-												  ngas=${HTDF_DEFAULT_TX_GAS},\
-												  nfee=${HTDF_DEFAULT_TX_FEE})";
+												  gaswanted=${HTDF_DEFAULT_TX_GAS},\
+												  gasprice=${HTDF_DEFAULT_TX_FEE})";
 
 transfer.two.htdf:
 	@read -p "Type From Private Key: " fromprivkey; \
@@ -102,8 +102,8 @@ transfer.two.htdf:
 												  namount=$$amount,\
 												  restapi='${HTDF_REST_SERVER}',\
 												  chainid='${HTDF_CHAIN_ID}',\
-												  ngas=${HTDF_DEFAULT_TX_GAS},\
-												  nfee=${HTDF_DEFAULT_TX_FEE})";
+												  gaswanted=${HTDF_DEFAULT_TX_GAS},\
+												  gasprice=${HTDF_DEFAULT_TX_FEE})";
 
 transfer.one.usdp:
 	@echo ${USDP_DISTR_KEY}
@@ -115,8 +115,8 @@ transfer.one.usdp:
 												  namount=$$amount,\
 												  restapi='${USDP_REST_SERVER}',\
 												  chainid='${USDP_CHAIN_ID}',\
-												  ngas=${USDP_DEFAULT_TX_GAS},\
-												  nfee=${USDP_DEFAULT_TX_FEE})";
+												  gaswanted=${USDP_DEFAULT_TX_GAS},\
+												  gasprice=${USDP_DEFAULT_TX_FEE})";
 
 transfer.two.usdp:
 	@read -p "Type From Private Key: " fromprivkey; \
@@ -128,8 +128,8 @@ transfer.two.usdp:
 												  namount=$$amount,\
 												  restapi='${USDP_REST_SERVER}',\
 												  chainid='${USDP_CHAIN_ID}',\
-												  ngas=${USDP_DEFAULT_TX_GAS},\
-												  nfee=${USDP_DEFAULT_TX_FEE})";
+												  gaswanted=${USDP_DEFAULT_TX_GAS},\
+												  gasprice=${USDP_DEFAULT_TX_FEE})";
 # check account
 chkacc.one.htdf:
 	@read -p "Type htdf address: " addr; \
