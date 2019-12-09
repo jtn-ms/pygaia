@@ -189,7 +189,7 @@ def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100,
     rsp = accountinfo(fromaddr,restapi)
     print rsp
     naccnumber, nsequence = rsp["accountnumber"],rsp["sequence"]
-    if namount < 0: namount = rsp["balance"] * (10**8) - nfee # transfer all balance if namount < 0
+    if namount < 0: namount = rsp["balance"] * (10**8) - gaswanted*gasprice # transfer all balance if namount < 0
     if namount < 0: print('no balance'); return
     if debug: end = time.time();print('accountinfo: %d'%int(end-start));start=end
     if naccnumber < 0 or nsequence < 0: return
