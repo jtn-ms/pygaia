@@ -25,7 +25,7 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
     for item in getitems(privkeyfile):
         hrp = item[0].lower()
         fromprivkey = item[2]
-        try: frompubkey,fromaddr = privkey2addr(fromprivkey,hrp)
+        try: _,fromaddr = privkey2addr(fromprivkey,hrp)
         except: continue
         if fromaddr != item[1] or hrp != fromaddr[:4]: continue
         namount = accountinfo(fromaddr,restapi)["balance"] * (10**8) - ndefault_fee#以satoshi为单位,    1USDP  = 10^8 satoshi    1HTDF=10^8 satoshi
@@ -41,11 +41,11 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
 def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
                  privkeyfile = 'htdf.privkey',
                  restapi='47.98.194.7:1317', chainid='testchain',
-                 ndefault_gas=200000,ndefault_fee=20,nAmount=1000):
+                 ndefault_gas=200000,ndefault_fee=20,nAmount=None):
     # repeats = 500
     # for i in range(repeats):
         for item in getitems(privkeyfile):
-            hrp,fromaddr,fromprivkey = item[0].lower(), item[1], item[2]
+            hrp,_,fromprivkey = item[0].lower(), item[1], item[2]
             #try: threading.Thread(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
             try:
                 if nAmount and isinstance(nAmount,int): 
@@ -57,7 +57,7 @@ def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
         # time.sleep(10)
         
 def report(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317'):
-    balance = 0
+    # balance = 0
     params = []
     for item in getitems(privkeyfile):
         addr=item[1]

@@ -1,6 +1,6 @@
 {
-    "rest-server":"39.108.219.50:1317",
-    "chain-id":"mainchain",
+    "rest-server":"120.77.170.207:1317",
+    "chain-id":"testchain",
     "default-gas":200000,
     "default-fee":100,
     "mother-key":"c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d",
