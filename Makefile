@@ -9,7 +9,7 @@
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
-HTDF_CONFIG_FILE = $(CURDIR)/config/testnet/htdf.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/10000/htdf.json
 USDP_CONFIG_FILE = $(CURDIR)/config/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
@@ -91,6 +91,21 @@ transfer.one.htdf:
 												  chainid='${HTDF_CHAIN_ID}',\
 												  gaswanted=${HTDF_DEFAULT_TX_GAS},\
 												  gasprice=${HTDF_DEFAULT_TX_FEE})";
+
+# multiple transactions from one account
+# into a block
+transfer.one.htdf.test:
+	@echo ${HTDF_DISTR_KEY}
+	@read -p "Type Toaddress: " toaddr; \
+	 read -p "Type Amount: " amount; \
+	 python -c "from tx import test_transfer; test_transfer(hrp='htdf',\
+															fromprivkey='${HTDF_DISTR_KEY}',\
+															toaddr='$$toaddr',\
+															namount=$$amount,\
+															restapi='${HTDF_REST_SERVER}',\
+															chainid='${HTDF_CHAIN_ID}',\
+															gaswanted=${HTDF_DEFAULT_TX_GAS},\
+															gasprice=${HTDF_DEFAULT_TX_FEE})";
 
 transfer.two.htdf:
 	@read -p "Type From Private Key: " fromprivkey; \
