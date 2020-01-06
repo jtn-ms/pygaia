@@ -21,7 +21,7 @@ from multiprocessing import Process
 def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
                privkeyfile = 'htdf.privkey',
                restapi='47.98.194.7:1317', chainid='testchain',
-               ndefault_gas=200000,ndefault_fee=20,nAmount=None):
+               ndefault_gas=200000,ndefault_fee=100,nAmount=None):
     for item in getitems(privkeyfile):
         hrp = item[0].lower()
         fromprivkey = item[2]
@@ -41,7 +41,7 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
 def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
                  privkeyfile = 'htdf.privkey',
                  restapi='47.98.194.7:1317', chainid='testchain',
-                 ndefault_gas=200000,ndefault_fee=20,nAmount=None):
+                 ndefault_gas=200000,ndefault_fee=100,nAmount=None):
     # repeats = 500
     # for i in range(repeats):
         for item in getitems(privkeyfile):
@@ -74,4 +74,4 @@ if __name__ == "__main__":
     accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
                privkeyfile = 'db/accu/htdf.privkey',
                restapi='47.98.194.7:1317', chainid='testchain',
-               ndefault_gas=200000,ndefault_fee=20)
+               ndefault_gas=200000,ndefault_fee=100)

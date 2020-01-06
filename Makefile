@@ -9,7 +9,7 @@
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
-HTDF_CONFIG_FILE = $(CURDIR)/config/testnet/htdf.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/10000/htdf.json
 USDP_CONFIG_FILE = $(CURDIR)/config/10000/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
@@ -52,6 +52,11 @@ check:
 	@echo ${USDP_DISTR_KEY}
 	@echo ${USDP_GOV_ADDR}
 	@echo ${USDP_DISTR_ADDR}
+
+# this is for single mode
+# first account to mother address
+send2faucet:
+	@hscli tx send $$(hscli accounts list | sed -n '1p') ${HTDF_GOV_ADDR} 10000000000000satoshi --gas-price=100
 
 #+ &&&&& 
 #+{@ | @}

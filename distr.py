@@ -1,5 +1,5 @@
-
-from tx import transfer,accountinfo
+# -*- coding: utf-8 -*-
+from tx import transfer,transferEx,accountinfo
 from key import privkey2addr
 from accu import getitems
 
@@ -8,12 +8,26 @@ blk_time=10
 def distr(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65',
           hrp='htdf',privkeyfile = 'htdf.privkey',
           restapi='47.98.194.7:1317', chainid='testchain',
-          ndefault_gas=200000,ndefault_fee=20, nAmount = 1.234 * (10**8)):
+          ndefault_gas=200000,ndefault_fee=100, namount = 1.234 * (10**8)):
+    import time
+    start = time.time()
+    from key import privkey2addr
+    _,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
+    #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
+    print restapi
+    rsp = accountinfo(fromaddr,restapi)
+    print rsp
+    naccnumber, nsequence = rsp["accountnumber"],rsp["sequence"]
+    if namount < 0: namount = rsp["balance"] * (10**8) - ndefault_gas*ndefault_fee # transfer all balance if namount < 0
+    if namount < 0: print('no balance'); return
+    if naccnumber < 0 or nsequence < 0: return
+    print('account_number : %d' % naccnumber)
+    print('sequence: %d' % nsequence)
+    #------------------------------步骤2 : 转账-----------------------------------
     for item in getitems(privkeyfile):
         toaddr=item[1]
-        transfer(hrp,fromprivkey, toaddr, nAmount, chainid, ndefault_fee, ndefault_gas,restapi)
-        import time
-        time.sleep(blk_time)
+        transferEx(hrp,fromprivkey, toaddr, namount,naccnumber,nsequence, chainid, ndefault_fee, ndefault_gas,restapi)
+        nsequence+=1
 
 def count(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317',debug=False):
     nonzeros,zeros = [],[]
@@ -29,7 +43,7 @@ def count(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317',debug=False):
 from multiprocessing import Process
 def distrex(hrp='htdf',privkeyfile='htdf.privkey',
             restapi='47.98.194.7:1317', chainid='testchain',
-            ndefault_gas=200000,ndefault_fee=20):
+            ndefault_gas=200000,ndefault_fee=100):
     nonzeros,zeros = count(privkeyfile,restapi)
     num = 0
     while len(zeros)>0 and num < 10:
@@ -47,7 +61,7 @@ def distrex(hrp='htdf',privkeyfile='htdf.privkey',
 # db to db
 def distrp2p(hrp='htdf',fromdb='db/100/htdf.privkey',todb='db/10000/htdf.privkey',
             restapi='47.98.194.7:1317', chainid='testchain',
-            ndefault_gas=200000,ndefault_fee=20):
+            ndefault_gas=200000,ndefault_fee=100):
     nonzeros,_ = count(fromdb,restapi)
     _,zeros = count(todb,restapi)
     num = 0

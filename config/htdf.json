@@ -2,7 +2,7 @@
     "rest-server":"47.98.194.7:1317",
     "chain-id":"testchain",
     "default-gas":200000,
-    "default-fee":20,
+    "default-fee":100,
     "father-addr":"htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3",
     "child-key-path":"db/10000/htdf.privkey"
 }

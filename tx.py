@@ -202,6 +202,18 @@ def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100,
     broadcast(fromaddr,toaddr,namount,gasprice,gaswanted,b64PubKey,b64Data,data,restapi)
     if debug: end = time.time();print('broadcast: %d'%int(end-start));start=end
 
+def transferEx(hrp,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid='testchain',gasprice=100, gaswanted=20000,restapi='47.98.194.7:1317',data="",debug=False):
+    import time
+    start = time.time()
+    from key import privkey2addr
+    _,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
+    #-------------------------- 步骤2: 签名 -----------------------------------------
+    b64PubKey, b64Data = sign(hrp, fromprivkey, toaddr, namount,nsequence, naccnumber,chainid,gasprice,gaswanted,data)
+    if debug: end = time.time();print('sign: %d'%int(end-start));start=end
+    #-------------------------- 步骤3: 拼装广播数据 -----------------------------------------
+    broadcast(fromaddr,toaddr,namount,gasprice,gaswanted,b64PubKey,b64Data,data,restapi)
+    if debug: end = time.time();print('broadcast: %d'%int(end-start));start=end
+    
 # junying-todo, 2019-12-15
 # multiple transactions from one account into one block
 def test_transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100, gaswanted=20000,restapi='47.98.194.7:1317',debug=False):
