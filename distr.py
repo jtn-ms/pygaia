@@ -8,7 +8,7 @@ blk_time=10
 def distr(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65',
           hrp='htdf',privkeyfile = 'htdf.privkey',
           restapi='47.98.194.7:1317', chainid='testchain',
-          ndefault_gas=200000,ndefault_fee=100, namount = 1.234 * (10**8)):
+          ndefault_gas=30000,ndefault_fee=100, namount = 1.234 * (10**8)):
     import time
     start = time.time()
     from key import privkey2addr
@@ -43,7 +43,7 @@ def count(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317',debug=False):
 from multiprocessing import Process
 def distrex(hrp='htdf',privkeyfile='htdf.privkey',
             restapi='47.98.194.7:1317', chainid='testchain',
-            ndefault_gas=200000,ndefault_fee=100):
+            ndefault_gas=30000,ndefault_fee=100):
     nonzeros,zeros = count(privkeyfile,restapi)
     num = 0
     while len(zeros)>0 and num < 10:
@@ -61,7 +61,7 @@ def distrex(hrp='htdf',privkeyfile='htdf.privkey',
 # db to db
 def distrp2p(hrp='htdf',fromdb='db/100/htdf.privkey',todb='db/10000/htdf.privkey',
             restapi='47.98.194.7:1317', chainid='testchain',
-            ndefault_gas=200000,ndefault_fee=100):
+            ndefault_gas=30000,ndefault_fee=100):
     nonzeros,_ = count(fromdb,restapi)
     _,zeros = count(todb,restapi)
     num = 0

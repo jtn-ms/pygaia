@@ -8,7 +8,7 @@ from accu import getitems
 from multiprocessing import Process
 def flood(hrp='htdf',privkeyfile='htdf.privkey',
           restapi='47.98.194.7:1317', chainid='testchain',
-          ndefault_gas=200000,ndefault_fee=100,namount=200000):
+          ndefault_gas=30000,ndefault_fee=100,namount=200000):
     accs = getitems(privkeyfile)
     for time in range(2):
         senders   = accs[:len(accs)/2] if not time else accs[len(accs)/2:]
