@@ -1,3 +1,12 @@
 coincurve>=11.0.0
 ecdsa>=0.13
-requests>=2.18.4 
+requests>=2.18.4
+py_ecc==1.4.1
+rlp==0.6.0
+eth-abi==1.0.0                   
+eth-hash==0.1.1                   
+eth-utils==1.0.3
+ethereum-serpent==2.0.4
+pyethash==0.1.27
+ethereum==2.3.1
+bitcoin==1.1.42
