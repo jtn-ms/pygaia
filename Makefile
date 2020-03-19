@@ -9,7 +9,7 @@
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
-HTDF_CONFIG_FILE = $(CURDIR)/config/10000/htdf.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/mainnet/htdf.json
 USDP_CONFIG_FILE = $(CURDIR)/config/10000/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
@@ -185,6 +185,18 @@ genkey.key.usdp:
 genkey.key.htdf:
 	@read -p "Type KeyString: " keystring; \
 	 python -c "from key import genkey; print genkey('htdf','$$keystring')"
+# 2020-03-19
+genkey.keys.htdf:
+	@read -p "Type KeyString: " keystring; \
+	 python -c "from key import genkey; keys=[genkey('htdf','$$keystring%d'%i)[0] for i in range(8)]; print '\n'.join(keys)"
+
+recover.keys:
+	@read -p "Type KeyString: " keystring; \
+	 for index in  $$(python -c "print ' '.join(str(item) for item in range(1,8))"); do \
+	 privkey=$$(python -c "from key import genkey; print genkey('htdf','$$keystring$$index')[0]");\
+	 echo $$privkey;\
+	 ansible $$keystring$$index -m shell -a "hscli accounts recover $$privkey 123456789";\
+	 done;
 
 # convert
 privkey2addr.htdf:
