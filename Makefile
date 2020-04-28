@@ -9,7 +9,7 @@
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
-HTDF_CONFIG_FILE = $(CURDIR)/config/mainnet/htdf.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/testnet/htdf.json
 USDP_CONFIG_FILE = $(CURDIR)/config/10000/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
@@ -246,6 +246,16 @@ distr.htdf:
 											  restapi='${HTDF_REST_SERVER}',\
 											  chainid='${HTDF_CHAIN_ID}',\
 											  ndefault_gas=${HTDF_DEFAULT_TX_GAS},\
+											  ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
+
+distr.hrc20:
+	@python -c "from distr import distr_erc20; distr_erc20(fromprivkey='${HTDF_DISTR_KEY}',\
+											  contractaddr='htdf12dvguqedrvgfrdl35hcgfmz4fz6rm6chrvf96g',\
+											  hrp='htdf',\
+											  privkeyfile='${HTDF_DB_KEY}',\
+											  restapi='${HTDF_REST_SERVER}',\
+											  chainid='${HTDF_CHAIN_ID}',\
+											  ndefault_gas=500000,\
 											  ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
 DISTR_AMOUNT = 1000000
 distr.usdp:

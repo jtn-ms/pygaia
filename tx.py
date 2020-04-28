@@ -202,7 +202,7 @@ def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100,
     broadcast(fromaddr,toaddr,namount,gasprice,gaswanted,b64PubKey,b64Data,data,restapi)
     if debug: end = time.time();print('broadcast: %d'%int(end-start));start=end
 
-def transferEx(hrp,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid='testchain',gasprice=100, gaswanted=20000,restapi='47.98.194.7:1317',data="",debug=False):
+def transferEx(hrp,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid='testchain',gasprice=100, gaswanted=30000,restapi='47.98.194.7:1317',data="",debug=False):
     import time
     start = time.time()
     from key import privkey2addr
@@ -213,6 +213,42 @@ def transferEx(hrp,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid=
     #-------------------------- 步骤3: 拼装广播数据 -----------------------------------------
     broadcast(fromaddr,toaddr,namount,gasprice,gaswanted,b64PubKey,b64Data,data,restapi)
     if debug: end = time.time();print('broadcast: %d'%int(end-start));start=end
+
+
+
+# 0x06fdde03 name()
+# 0x095ea7b3 approve(address,uint256)
+# 0x18160ddd totalSupply()
+# 0x23b872dd transferFrom(address,address,uint256)
+# 0x313ce567 decimals()
+# 0x4d853ee5 founder()
+# 0x70a08231 balanceOf(address)
+# 0x93c32e06 changeFounder(address)
+# 0x95d89b41 symbol()
+# 0xa9059cbb transfer(address,uint256)
+# 0xdd62ed3e allowance(address,address)
+# BWC: htdf12dvguqedrvgfrdl35hcgfmz4fz6rm6chrvf96g
+# CVS: htdf1ks6vgnp25r2eaa9k70dmsp448wmrma8mnucrsz
+
+def completeData(bechaddr,amount):
+    from ethereum.abi import method_id
+    #code=hex(method_id('transfer',['address','uint256']))
+    hexfunc="a9059cbb"#code[:2]+'0'*(10-len(code))+code[2:]
+    from key import bech2hex
+    hexaddr=bech2hex(bechaddr)
+    hexint=hex(int(amount))[2:]
+    return hexfunc +\
+          '0'*(64-len(hexaddr))+hexaddr+\
+          '0'*(64-len(hexint))+hexint
+
+def transferEx_hrc20(hrp,contractaddr,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid='testchain',gasprice=100, gaswanted=500000,restapi='47.98.194.7:1317',debug=False):
+    import time
+    start = time.time()
+    from key import privkey2addr
+    _,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
+    data=completeData(toaddr,namount)
+    b64PubKey, b64Data = sign(hrp, fromprivkey, contractaddr, 0,nsequence, naccnumber,chainid,gasprice,gaswanted,data)
+    broadcast(fromaddr,contractaddr,0,gasprice,gaswanted,b64PubKey,b64Data,data,restapi)
     
 # junying-todo, 2019-12-15
 # multiple transactions from one account into one block

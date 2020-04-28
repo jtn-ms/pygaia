@@ -194,6 +194,20 @@ def privkey2addr(privKey, hrp='usdp'):
     pubKey = privkey2pubkey(privKey)
     return pubKey,pubkey2addr(pubKey, hrp)
 
+def bech2hex(bech):
+    hrp,data = bech32_decode(bech)
+    converted = convertbits(data, 5, 8, False)
+    hexes = []
+    for b in converted:
+        byte = hex(b).strip("0x")
+        hexes.append('0'*(2-len(byte))+byte)
+    return ''.join(hexes)
+
+def hex2bech(hex, hrp='htdf'):
+    data = [int(hex[2*i:2*i+2],16) for i in range(len(hex)/2)]
+    converted = convertbits(data, 8, 5)
+    return bech32_encode(hrp, converted)
+
 def genkey(hrp='usdp',keystring=None):
     '''
     USDP 生成地址
@@ -221,3 +235,8 @@ def genkeys(hrp='htdf',count=10,filepath=None):
     if filepath:
         with open(filepath,'w') as file:
             file.writelines(accs)
+            
+            
+if __name__ == "__main__":
+    print bech2hex("htdf10fjsnx05ewesqjlmy5pesxzwa2t7z4e6vvqxvj")
+    print hex2bech(bech2hex("htdf10fjsnx05ewesqjlmy5pesxzwa2t7z4e6vvqxvj"))

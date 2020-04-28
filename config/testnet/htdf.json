@@ -5,5 +5,5 @@
     "default-fee":100,
     "mother-key":"c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d",
     "father-key":"c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d",
-    "child-key-path":"/home/falcon/htdf.privkey"
+    "child-key-path":"db/10000/htdf.privkey"
 }
