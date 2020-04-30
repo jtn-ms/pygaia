@@ -230,6 +230,13 @@ def transferEx(hrp,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid=
 # BWC: htdf12dvguqedrvgfrdl35hcgfmz4fz6rm6chrvf96g
 # CVS: htdf1ks6vgnp25r2eaa9k70dmsp448wmrma8mnucrsz
 
+def queryGetBalance(bechaddr):
+    hexfunc="70a08231"
+    from key import bech2hex
+    hexaddr=bech2hex(bechaddr)
+    return hexfunc +\
+          '0'*(64-len(hexaddr))+hexaddr
+
 def completeData(bechaddr,amount):
     from ethereum.abi import method_id
     #code=hex(method_id('transfer',['address','uint256']))
@@ -237,9 +244,30 @@ def completeData(bechaddr,amount):
     from key import bech2hex
     hexaddr=bech2hex(bechaddr)
     hexint=hex(int(amount))[2:]
+    hexint= hexint.strip('L')
     return hexfunc +\
           '0'*(64-len(hexaddr))+hexaddr+\
           '0'*(64-len(hexint))+hexint
+
+def transfer_hrc20(hrp,contractaddr,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100, gaswanted=500000,restapi='47.98.194.7:1317'):
+    import time
+    start = time.time()
+    from key import privkey2addr
+    _,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
+    #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
+    print restapi
+    rsp = accountinfo(fromaddr,restapi)
+    print rsp
+    naccnumber, nsequence = rsp["accountnumber"],rsp["sequence"]
+    nbalance = rsp["balance"] * (10**8) - gaswanted*gasprice # transfer all balance if namount < 0
+    if nbalance < 0: print('no balance'); return
+    if naccnumber < 0 or nsequence < 0: return
+    print('account_number : %d' % naccnumber)
+    print('sequence: %d' % nsequence)
+    #-------------------------- 步骤2: 签名 -----------------------------------------
+    data=completeData(toaddr,namount)
+    b64PubKey, b64Data = sign(hrp, fromprivkey, contractaddr, 0,nsequence, naccnumber,chainid,gasprice,gaswanted,data)
+    broadcast(fromaddr,contractaddr,0,gasprice,gaswanted,b64PubKey,b64Data,data,restapi)
 
 def transferEx_hrc20(hrp,contractaddr,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid='testchain',gasprice=100, gaswanted=500000,restapi='47.98.194.7:1317',debug=False):
     import time

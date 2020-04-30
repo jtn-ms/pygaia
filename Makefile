@@ -34,6 +34,8 @@ USDP_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('
 USDP_DISTR_KEY= $$(findkey mother-key ${USDP_CONFIG_FILE})
 USDP_DISTR_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${USDP_DISTR_KEY}',hrp='usdp')[1]")
 
+HRC_DEFAULT_TX_GAS = 500000
+
 # CHECK
 check:
 	@echo ${HTDF_REST_SERVER}
@@ -95,6 +97,20 @@ transfer.one.htdf:
 												  restapi='${HTDF_REST_SERVER}',\
 												  chainid='${HTDF_CHAIN_ID}',\
 												  gaswanted=${HTDF_DEFAULT_TX_GAS},\
+												  gasprice=${HTDF_DEFAULT_TX_FEE})";
+
+transfer.one.hrc20:
+	@echo ${HTDF_DISTR_KEY}
+	@read -p "Type Toaddress: " toaddr; \
+	 read -p "Type Amount: " amount; \
+	 python -c "from tx import transfer_hrc20; transfer_hrc20(hrp='htdf',\
+	 											  contractaddr='htdf1nkkc48lfchy92ahg50akj2384v4yfqpm4hsq6y',\
+	 											  fromprivkey='${HTDF_DISTR_KEY}',\
+												  toaddr='$$toaddr',\
+												  namount=$$amount,\
+												  restapi='${HTDF_REST_SERVER}',\
+												  chainid='${HTDF_CHAIN_ID}',\
+												  gaswanted=${HRC_DEFAULT_TX_GAS},\
 												  gasprice=${HTDF_DEFAULT_TX_FEE})";
 
 run.contract.htdf:
@@ -169,6 +185,13 @@ transfer.two.usdp:
 chkacc.one.htdf:
 	@read -p "Type htdf address: " addr; \
 	 python -c "from tx import accountinfo; print accountinfo('$$addr','${HTDF_REST_SERVER}')"
+
+chkacc.one.hrc20:
+	@read -p "Type contract address: " contractaddr; \
+	 read -p "Type htdf address: " addr; \
+	 querydata=$$(python -c "from tx import queryGetBalance; print queryGetBalance('$$addr')");\
+	 curl -X GET "http://${HTDF_REST_SERVER}/hs/contract/$$contractaddr/$$querydata" -H "accept: application/json"
+
 chkacc.one.usdp:
 	@read -p "Type usdp address: " addr; \
 	 python -c "from tx import accountinfo; print accountinfo('$$addr','${USDP_REST_SERVER}')"
@@ -255,7 +278,7 @@ distr.hrc20:
 											  privkeyfile='${HTDF_DB_KEY}',\
 											  restapi='${HTDF_REST_SERVER}',\
 											  chainid='${HTDF_CHAIN_ID}',\
-											  ndefault_gas=500000,\
+											  ndefault_gas=${HRC_DEFAULT_TX_GAS},\
 											  ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
 DISTR_AMOUNT = 1000000
 distr.usdp:
