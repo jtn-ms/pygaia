@@ -181,6 +181,15 @@ transfer.two.usdp:
 												  chainid='${USDP_CHAIN_ID}',\
 												  gaswanted=${USDP_DEFAULT_TX_GAS},\
 												  gasprice=${USDP_DEFAULT_TX_FEE})";
+
+transfer.multi.htdf:
+	@python -c "from tx import transferMulti; transferMulti(hrp='htdf',\
+	 											  fromprivkey='b948544b053ebfac33f21f2a7a9e1bb8dc5e78c1bf3d6b0f5b6eaed94ea49797',\
+												  txlistfile='./db/txs/tx.list',\
+												  restapi='127.0.0.1:1317',\
+												  chainid='testchain',\
+												  gaswanted=30000,\
+												  gasprice=100)";
 # check account
 chkacc.one.htdf:
 	@read -p "Type htdf address: " addr; \
