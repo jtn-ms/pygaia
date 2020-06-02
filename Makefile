@@ -186,7 +186,7 @@ transfer.multi.htdf:
 	@python -c "from tx import transferMulti; transferMulti(hrp='htdf',\
 	 											  fromprivkey='b948544b053ebfac33f21f2a7a9e1bb8dc5e78c1bf3d6b0f5b6eaed94ea49797',\
 												  txlistfile='./db/txs/tx.list',\
-												  restapi='127.0.0.1:1317',\
+												  restapi='39.108.251.132:1317',\
 												  chainid='testchain',\
 												  gaswanted=30000,\
 												  gasprice=100)";
@@ -206,8 +206,11 @@ chkacc.one.usdp:
 	 python -c "from tx import accountinfo; print accountinfo('$$addr','${USDP_REST_SERVER}')"
 
 chkacc.multi.htdf:
-	@python -c "from tx import chkaccMulti; chkaccMulti('db/txs/acnts.list','127.0.0.1:1317')"
+	@python -c "from tx import chkaccMulti; chkaccMulti('db/txs/acnts.list','39.108.251.132:1317')"
 
+
+compare.multi:
+	@python -c "from tx import compareBalances; compareBalances()"
 # generate random key
 genkey.one.usdp:
 	@python -c "from key import genkey; print genkey('usdp')"

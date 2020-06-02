@@ -23,7 +23,7 @@ def accountinfo(address,restapi='47.98.194.7:1317',debug=False):
     try:
         rsp =  requests.get('http://%s/auth/accounts/%s' % (restapi.strip(), address.strip()))
         rspJson = rsp.json()
-        balance = float(rspJson['value']['coins'][0]['amount']) if rspJson['value']['coins'] else -2
+        balance = Decimal(rspJson['value']['coins'][0]['amount']) if rspJson['value']['coins'] else -2
         nAccountNumber = int(rspJson['value']['account_number'], 10)
         nSequence = int(rspJson['value']['sequence'], 10)
     except Exception as e:
@@ -95,6 +95,9 @@ def broadcast(fromaddr, toaddr, namount, gasprice, gaswanted, b64PubKey, b64Data
             rspJson = rsp.json()
             txid = str(rspJson['txhash'])
             print("%s 转给 %s 金额: %d  的交易广播成功, txid:%s" % (fromaddr, toaddr , namount, txid))
+            
+            from tools import write_log
+            write_log("toAddr=%s|satoshiAmount=%d|txid=%s" % (toaddr, namount, txid))
         else:
             #注意, 如果报 Timed out waiting for tx to be included in a block  的错, 说明已经广播成功,只是为被打包
             if 'Timed' in rsp.text: print("已经广播成功, 但是为获取到txid, 此交易稍后会被节点"); return
@@ -217,7 +220,7 @@ def transferEx(hrp,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid=
 from accu import getitems
 from decimal import Decimal
 
-def transferMulti(hrp,fromprivkey, txlistfile, chainid='testchain',gasprice=100, gaswanted=20000,restapi='47.98.194.7:1317',data="",debug=False):
+def transferMulti(hrp,fromprivkey, txlistfile, chainid='testchain',gasprice=100, gaswanted=20000,restapi='test02.orientwalt.cn:1317',data="",debug=False):
     import time
     start = time.time()
     from key import privkey2addr
@@ -248,9 +251,18 @@ def chkaccMulti(acclstfile,restapi):
         rsp = accountinfo(item[0],restapi)
         naccnumber, nsequence, nbalance = rsp["accountnumber"], rsp["sequence"], rsp["balance"]
         print '%s     %s'%(item[0],rsp["balance"])
-        accumulated+=float(nbalance)
+        accumulated+=Decimal(nbalance)
     print accumulated
-        
+    
+def compareBalances(balancebefore='./db/txs/balance.before',balanceafter='./db/txs/balance.after',txlist='./db/txs/tx.list',restapi='39.108.251.132:1317'):
+    befores=getitems(balancebefore)
+    afters=getitems(balanceafter)
+    transations=getitems(txlist)
+    for index,item in enumerate(transations):
+        beforeaccount, beforebalance=befores[index][0], Decimal(befores[index][1])
+        afteraccount, afterbalance=afters[index][0], Decimal(afters[index][1])
+        toaddress, amount=transations[index][0], Decimal(transations[index][1])
+        if amount !=(afterbalance-beforebalance): print '%s:%s,%s:%s,%s'%(beforeaccount,afteraccount,beforebalance,afterbalance,amount)
 # 0x06fdde03 name()
 # 0x095ea7b3 approve(address,uint256)
 # 0x18160ddd totalSupply()
