@@ -215,6 +215,7 @@ def transferEx(hrp,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid=
     if debug: end = time.time();print('broadcast: %d'%int(end-start));start=end
 
 from accu import getitems
+from decimal import Decimal
 
 def transferMulti(hrp,fromprivkey, txlistfile, chainid='testchain',gasprice=100, gaswanted=20000,restapi='47.98.194.7:1317',data="",debug=False):
     import time
@@ -222,16 +223,15 @@ def transferMulti(hrp,fromprivkey, txlistfile, chainid='testchain',gasprice=100,
     from key import privkey2addr
     _,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
     if debug: end = time.time();print('privkey2addr: %d'%int(end-start));start=end
-    #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
     print restapi
     rsp = accountinfo(fromaddr,restapi)
     print rsp
-    naccnumber, nsequence, nbalance = rsp["accountnumber"], rsp["sequence"], rsp["balance"] * (10**8)
+    naccnumber, nsequence, nbalance = rsp["accountnumber"], rsp["sequence"], Decimal(rsp["balance"]) * (10**8)
+    print('account_number : %d' % naccnumber)
     for item in getitems(txlistfile):
-        print item
-        toaddr, namount = item[0], float(item[1])* (10**8)
+        #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
+        toaddr, namount = item[0], Decimal(item[1])* (10**8)
         if naccnumber < 0 or nsequence < 0 or nbalance < namount: return
-        print('account_number : %d' % naccnumber)
         print('sequence: %d' % nsequence)
         #-------------------------- 步骤2: 签名 -----------------------------------------
         b64PubKey, b64Data = sign(hrp, fromprivkey, toaddr, namount,nsequence, naccnumber,chainid,gasprice,gaswanted,data)
@@ -239,7 +239,18 @@ def transferMulti(hrp,fromprivkey, txlistfile, chainid='testchain',gasprice=100,
         #-------------------------- 步骤3: 拼装广播数据 -----------------------------------------
         broadcast(fromaddr,toaddr,namount,gasprice,gaswanted,b64PubKey,b64Data,data,restapi)
         if debug: end = time.time();print('broadcast: %d'%int(end-start));start=end
+        nsequence+=1
+        nbalance-=namount
 
+def chkaccMulti(acclstfile,restapi):
+    accumulated = 0
+    for item in getitems(acclstfile):
+        rsp = accountinfo(item[0],restapi)
+        naccnumber, nsequence, nbalance = rsp["accountnumber"], rsp["sequence"], rsp["balance"]
+        print '%s     %s'%(item[0],rsp["balance"])
+        accumulated+=float(nbalance)
+    print accumulated
+        
 # 0x06fdde03 name()
 # 0x095ea7b3 approve(address,uint256)
 # 0x18160ddd totalSupply()

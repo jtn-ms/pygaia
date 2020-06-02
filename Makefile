@@ -205,6 +205,9 @@ chkacc.one.usdp:
 	@read -p "Type usdp address: " addr; \
 	 python -c "from tx import accountinfo; print accountinfo('$$addr','${USDP_REST_SERVER}')"
 
+chkacc.multi.htdf:
+	@python -c "from tx import chkaccMulti; chkaccMulti('db/txs/acnts.list','127.0.0.1:1317')"
+
 # generate random key
 genkey.one.usdp:
 	@python -c "from key import genkey; print genkey('usdp')"
