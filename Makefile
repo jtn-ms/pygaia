@@ -254,6 +254,14 @@ genkey2db.multi.htdf:
 genkey2db.multi.usdp:
 	@python -c "from key import genkeys; genkeys('usdp',${ACC_COUNT},'${USDP_DB_KEY}')";
 
+airdrop.input.data:
+	@addrs=$$(python -c "print hex(${ACC_COUNT})");\
+	 values=$$(python -c "print hex(${ACC_COUNT})");\
+	 for index in  $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))"); do \
+	 addr=$$(python -c "from key import genkey; print genkey('htdf','$$keystring$$index')[2]");\
+	 value=$$(python -c "import random; print random.randint(100000,10000000)");\
+	 echo $$addr;\
+	 done;	
 
 chkacc.all.htdf:
 	# @python -c "from tx import accountinfo; print accountinfo('${HTDF_DISTR_ADDR}','${HTDF_REST_SERVER}')"
