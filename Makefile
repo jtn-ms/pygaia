@@ -248,7 +248,7 @@ privkey2addr.usdp:
 # {~ | ~} 
 #    _		>>>	Simulation
 # generate
-ACC_COUNT = 600#10000
+ACC_COUNT = 200#10000
 genkey2db.multi.htdf:
 	@python -c "from key import genkeys; genkeys('htdf',${ACC_COUNT},'${HTDF_DB_KEY}')";
 genkey2db.multi.usdp:
