@@ -248,20 +248,29 @@ privkey2addr.usdp:
 # {~ | ~} 
 #    _		>>>	Simulation
 # generate
-ACC_COUNT = 100#10000
+ACC_COUNT = 600#10000
 genkey2db.multi.htdf:
 	@python -c "from key import genkeys; genkeys('htdf',${ACC_COUNT},'${HTDF_DB_KEY}')";
 genkey2db.multi.usdp:
 	@python -c "from key import genkeys; genkeys('usdp',${ACC_COUNT},'${USDP_DB_KEY}')";
 
 airdrop.input.data:
-	@addrs=$$(python -c "print hex(${ACC_COUNT})");\
-	 values=$$(python -c "print hex(${ACC_COUNT})");\
+	@addrs=$$(python3 -c "hexstr=hex(${ACC_COUNT})[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 values=$$(python3 -c "hexstr=hex(${ACC_COUNT})[2:]; print('0'*(64-len(hexstr))+hexstr)");\
 	 for index in  $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))"); do \
-	 addr=$$(python -c "from key import genkey; print genkey('htdf','$$keystring$$index')[2]");\
+	 bechaddr=$$(python -c "from key import genkey; print genkey('htdf','$$keystring$$index')[2]");\
+	 hexaddr=$$(hsutils bech2hex $$bechaddr|row 3|fromstr ": ");\
+	 lowerhexaddr=$$(lowerstr $$hexaddr);\
+	 param_addr=$$(python -c "print( '0'*(64-len('$$lowerhexaddr'))+'$$lowerhexaddr')");\
 	 value=$$(python -c "import random; print random.randint(100000,10000000)");\
-	 echo $$addr;\
-	 done;	
+	 echo $$bechaddr $$value;\
+	 addrs=$$addrs$$param_addr;\
+	 values=$$values$$(python3 -c "hexstr=hex($$value)[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 done;\
+	 token_addr=0000000000000000000000004fabb8cc1740cd9849371f2a574ae4e4a502a59e;\
+	 pos_addrs=$$(python3 -c "hexstr=hex(32*3)[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 pos_values=$$(python3 -c "hexstr=hex(32*(3+1+${ACC_COUNT}))[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 echo 7da5efc8$$token_addr$$pos_addrs$$pos_values$$addrs$$values;
 
 chkacc.all.htdf:
 	# @python -c "from tx import accountinfo; print accountinfo('${HTDF_DISTR_ADDR}','${HTDF_REST_SERVER}')"
