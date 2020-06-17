@@ -248,7 +248,7 @@ privkey2addr.usdp:
 # {~ | ~} 
 #    _		>>>	Simulation
 # generate
-ACC_COUNT = 200#10000
+ACC_COUNT = 2#10000
 genkey2db.multi.htdf:
 	@python -c "from key import genkeys; genkeys('htdf',${ACC_COUNT},'${HTDF_DB_KEY}')";
 genkey2db.multi.usdp:
@@ -271,6 +271,43 @@ airdrop.input.data:
 	 pos_addrs=$$(python3 -c "hexstr=hex(32*3)[2:]; print('0'*(64-len(hexstr))+hexstr)");\
 	 pos_values=$$(python3 -c "hexstr=hex(32*(3+1+${ACC_COUNT}))[2:]; print('0'*(64-len(hexstr))+hexstr)");\
 	 echo 7da5efc8$$token_addr$$pos_addrs$$pos_values$$addrs$$values;
+
+batchsend.input.data:
+	@addrs=$$(python3 -c "hexstr=hex(${ACC_COUNT})[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 values=$$(python3 -c "hexstr=hex(${ACC_COUNT})[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 for index in  $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))"); do \
+	 privkey=$$(python -c "from key import genkey; print genkey('htdf','$$keystring$$index')[0]");\
+	 bechaddr=$$(python -c "from key import privkey2addr; print privkey2addr('$$privkey',hrp='htdf')[1]");\
+	 hexaddr=$$(hsutils bech2hex $$bechaddr|row 3|fromstr ": ");\
+	 lowerhexaddr=$$(lowerstr $$hexaddr);\
+	 param_addr=$$(python -c "print( '0'*(64-len('$$lowerhexaddr'))+'$$lowerhexaddr')");\
+	 value=$$(python -c "import random; print random.randint(100000,10000000)");\
+	 echo $$bechaddr $$privkey $$value;\
+	 addrs=$$addrs$$param_addr;\
+	 values=$$values$$(python3 -c "hexstr=hex($$value)[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 done;\
+	 pos_addrs=$$(python3 -c "hexstr=hex(32*2)[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 pos_values=$$(python3 -c "hexstr=hex(32*(2+1+${ACC_COUNT}))[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 echo 2929abe6$$pos_addrs$$pos_values$$addrs$$values;
+
+qutoareceive.contract.data:
+	@addrs=$$(python3 -c "hexstr=hex(${ACC_COUNT})[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 values=$$(python3 -c "hexstr=hex(${ACC_COUNT})[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 contract='6060604052341561000f57600080fd5b6040516103a43803806103a48339810160405280805182019190602001805182019190505060008090505b82518110156100c157818181518110151561005157fe5b90602001906020020151600080858481518110151561006c57fe5b9060200190602002015173ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550808060010191505061003a565b5050506102d1806100d36000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680633ccfd60b1461005c57806370a08231146100895780638be79003146100d6575b600080fd5b341561006757600080fd5b61006f610123565b604051808215151515815260200191505060405180910390f35b341561009457600080fd5b6100c0600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610245565b6040518082815260200191505060405180910390f35b34156100e157600080fd5b61010d600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061028d565b6040518082815260200191505060405180910390f35b6000806000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050600081111561023c5760008060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055503373ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f19350505050151561023b57806000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208190555060009150610241565b5b600191505b5090565b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b600060205280600052604060002060009150905054815600a165627a7a723058207158cbed54d1a55c0c779c233a6c3e440b05975892c7fc45aaa4f9bcb2ba3c8f0029';\
+	 for index in  $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))"); do \
+	 privkey=$$(python -c "from key import genkey; print genkey('htdf','$$keystring$$index')[0]");\
+	 bechaddr=$$(python -c "from key import privkey2addr; print privkey2addr('$$privkey',hrp='htdf')[1]");\
+	 hexaddr=$$(hsutils bech2hex $$bechaddr|row 3|fromstr ": ");\
+	 lowerhexaddr=$$(lowerstr $$hexaddr);\
+	 param_addr=$$(python -c "print( '0'*(64-len('$$lowerhexaddr'))+'$$lowerhexaddr')");\
+	 value=$$(python -c "import random; print random.randint(100000,10000000)");\
+	 echo $$bechaddr $$value $$privkey;\
+	 addrs=$$addrs$$param_addr;\
+	 values=$$values$$(python3 -c "hexstr=hex($$value)[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 done;\
+	 pos_addrs=$$(python3 -c "hexstr=hex(32*2)[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 pos_values=$$(python3 -c "hexstr=hex(32*(2+1+${ACC_COUNT}))[2:]; print('0'*(64-len(hexstr))+hexstr)");\
+	 echo $$contract$$pos_addrs$$pos_values$$addrs$$values;
 
 chkacc.all.htdf:
 	# @python -c "from tx import accountinfo; print accountinfo('${HTDF_DISTR_ADDR}','${HTDF_REST_SERVER}')"
