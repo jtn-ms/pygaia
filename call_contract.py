@@ -172,19 +172,25 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
 # usage: python call_contract.py 
 # block gas limit: 15,000,000
 # tx gas limit: 75,00,000
-# payabletest
+# [batchsend]
+# 
+# [payabletest]
+# contract: htdf1ktzygz7ms80977m678dywt45zk5kz2c8gr7dke
 # transfer: 30a65824000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000003e8
 # receive: a3e76c0f
 # send: c4cbfd89
 # call: 4279fdc8
 # callex: 3f62cfef
+# **********************************************************************
+# the htdf token which is transfered to a contract address by payable function is used insides the contract.
+# anyone call any functions of the contract to move the fund. but nothing more.
 if __name__ == "__main__":
     fromprivkey = '044852b2a670ade5407e78fb2863c51de9fcb96542a07186fe3aeda6bb8a116d'
     contractaddr='htdf1ktzygz7ms80977m678dywt45zk5kz2c8gr7dke'#'htdf1tdm4fyfc0z3ynl44kj8ykyjptx5h484r0q6gj7'
     restapi = '127.0.0.1:1317'
     chainid = 'testchain'
     gaswanted=7500000
-    data='4279fdc8000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000003e8'#receive:'a3e76c0f'
+    data='4279fdc800000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000989680'#receive:'a3e76c0f'
     namount=0#100000
     execute('htdf',contractaddr=contractaddr,fromprivkey=fromprivkey,namount=namount,data=data,gaswanted=gaswanted)
     
