@@ -184,7 +184,8 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
 # **********************************************************************
 # the htdf token which is transfered to a contract address by payable function is used insides the contract.
 # anyone call any functions of the contract to move the fund. but nothing more.
-# you can transfer the fund to any account if the contract code has no restriction.
+# you can transfer the fund to any account if the contract code has no restriction
+# ,but the amount can't excess the one that is transfered to the contract by payable function callings
 if __name__ == "__main__":
     fromprivkey = '044852b2a670ade5407e78fb2863c51de9fcb96542a07186fe3aeda6bb8a116d'
     contractaddr='htdf1ktzygz7ms80977m678dywt45zk5kz2c8gr7dke'#'htdf1tdm4fyfc0z3ynl44kj8ykyjptx5h484r0q6gj7'
