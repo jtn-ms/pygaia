@@ -188,9 +188,11 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
 # the htdf token which is transfered to a contract address by payable function is used insides the contract.
 # anyone call any functions of the contract to move the fund. but nothing more.
 # you can transfer the fund to any account if the contract code has no restriction
-# ,but the amount can't exceed the one that is transfered to the contract by payable function callings
+# ,but the amount can't exceed the one that is transfered to the contract by payable function callings.
+# htdf of msg.value to contract is used by anyone to be touched.
 # [AIRDROP]
 # anyone call drop function to move any accounts' token, which is approved in token contract, to any account.
+# allowed[donater.address][airdrop.contract] = x allowed you to use airdrop.contract to touch donater' token as you wish.
 # **********************************************************************
 # **********************************************************************
 # *************************************************************************
