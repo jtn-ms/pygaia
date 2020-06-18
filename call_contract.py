@@ -182,17 +182,44 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
 # call: 4279fdc8
 # callex: 3f62cfef
 # **********************************************************************
+# **********************************************************************
+# **********************************************************************
+# [PAYABLE]
 # the htdf token which is transfered to a contract address by payable function is used insides the contract.
 # anyone call any functions of the contract to move the fund. but nothing more.
 # you can transfer the fund to any account if the contract code has no restriction
-# ,but the amount can't excess the one that is transfered to the contract by payable function callings
+# ,but the amount can't exceed the one that is transfered to the contract by payable function callings
+# [AIRDROP]
+# anyone call drop function to move any accounts' token, which is approved in token contract, to any account.
+# **********************************************************************
+# **********************************************************************
+# *************************************************************************
+# [exchange]
+# contract: htdf100had89f22avvncvwswjdqcy2z43mgxa33zk4y(0000000000000000000000007befd69ca952bac64f0c741d26830450ab1da0dd)
+# token2htdf: 038ebf0c000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d750000000000000000000000000000000000000000000000000000000000989680
+# htdf2token: 52d07be9000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d75
+# [hrc20]
+# founder: 4d853ee5
+# contract: htdf1qelc304f9cak43eh4d6maccsmagwgmt4gugz45(000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d75)
+# approve.data:095ea7b30000000000000000000000007befd69ca952bac64f0c741d26830450ab1da0dd00000000000000000000000000000000000000000000021e19e0c9bab2400000
+# transfer: a9059cbb00000000000000000000000006024f431d43244453661bd77bfcaa67f025210d00000000000000000000000000000000000000000000003635c9adc5dea00000
+# balanceOf: 70a0823100000000000000000000000006024f431d43244453661bd77bfcaa67f025210d
+#            70a0823100000000000000000000000085ced8ddf399d75c9e381e01f3bddcefb9132fe9 
+# *************************************************************************
+# [private keys]
+# founder = c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d # htdf1sh8d3h0nn8t4e83crcql80wua7u3xtlfj5dej3
+# user = dcc7debf1e3d432a7e1cf94d5340f68fd5d1019381e0074ed4fd6512c007b9d2 # htdf1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u # 00000000000000000000000006024f431d43244453661bd77bfcaa67f025210d
+# [procedures]
+# 1. approves to founder, user
+# 2. transfer htdf,token to founder, user
+# 3. 
 if __name__ == "__main__":
-    fromprivkey = '044852b2a670ade5407e78fb2863c51de9fcb96542a07186fe3aeda6bb8a116d'
-    contractaddr='htdf1ktzygz7ms80977m678dywt45zk5kz2c8gr7dke'#'htdf1tdm4fyfc0z3ynl44kj8ykyjptx5h484r0q6gj7'
+    fromprivkey = 'dcc7debf1e3d432a7e1cf94d5340f68fd5d1019381e0074ed4fd6512c007b9d2'#htdf1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u
+    contractaddr='htdf100had89f22avvncvwswjdqcy2z43mgxa33zk4y'#'htdf1tdm4fyfc0z3ynl44kj8ykyjptx5h484r0q6gj7'
     restapi = '127.0.0.1:1317'
     chainid = 'testchain'
     gaswanted=7500000
-    data='4279fdc800000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000989680'#receive:'a3e76c0f'
-    namount=0#100000
+    data='52d07be9000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d75'#receive:'a3e76c0f'
+    namount=10000000#100000
     execute('htdf',contractaddr=contractaddr,fromprivkey=fromprivkey,namount=namount,data=data,gaswanted=gaswanted)
     

@@ -413,3 +413,46 @@ clean:
 tar: clean
 	@tar cf ../accu.tar.gz *
 .PHONY: chkacc.all.htdf chkacc.all.usdp
+
+#### borrowed from orientwalt/htdf
+# create method_id
+# from ethereum.abi import method_id
+# hex(method_id("minter",[]))
+# hex(method_id("balances",['address']))
+# hex(method_id("mint",['address','uint256']))
+# hex(method_id("send",['address','uint256']))
+# Usage:
+# function name: minter
+# parameters: 
+# function name: mint
+# parameters: 'address','uint256'
+get.method.id:
+	@read -p "function name: " funcname;\
+	 read -p "parameters: " paramstr;\
+	 data=$$(python -c "from ethereum.abi import method_id;\
+	 				 	code=hex(method_id('$$funcname',[$$paramstr]));\
+						print(code[:2]+'0'*(10-len(code))+code[2:]);\
+						");\
+	 echo $$data
+
+# param: address
+# In:  htdf1ha7ryup8nc2avgesfunx2pm22waqv2cx6dj0ac
+# Out: BF7C3270279E15D623304F2665076A53BA062B06
+# 	   bf7c3270279e15d623304f2665076a53ba062b06
+#	   000000000000000000000000bf7c3270279e15d623304f2665076a53ba062b06
+param.address:
+	@read -p "bech32addr: " bech32addr;\
+	 byteaddr=$$(hsutils bech2hex $$bech32addr|row 3|fromstr ": ");\
+	 loweraddr=$$(lowerstr $$byteaddr);\
+	 param_addr=$$(python -c "print( '0'*(64-len('$$loweraddr'))+'$$loweraddr')");\
+	 echo $$param_addr
+
+# param: int
+# In:  100000
+# Out: 
+# 	   
+#	   
+param.int:
+	@read -p "uint: " uint;\
+	 python3 -c "hexstr=hex($$uint)[2:];\
+	 			print('0'*(64-len(hexstr))+hexstr)"
