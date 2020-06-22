@@ -209,7 +209,7 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
 #            70a0823100000000000000000000000085ced8ddf399d75c9e381e01f3bddcefb9132fe9 
 # *************************************************************************
 # [private keys]
-# founder = c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d # htdf1sh8d3h0nn8t4e83crcql80wua7u3xtlfj5dej3
+# founder = c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d # htdf1sh8d3h0nn8t4e83crcql80wua7u3xtlfj5dej3 # 00000000000000000000000085ced8ddf399d75c9e381e01f3bddcefb9132fe9
 # user = dcc7debf1e3d432a7e1cf94d5340f68fd5d1019381e0074ed4fd6512c007b9d2 # htdf1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u # 00000000000000000000000006024f431d43244453661bd77bfcaa67f025210d
 # [procedures]
 # 1. approves to founder, user
