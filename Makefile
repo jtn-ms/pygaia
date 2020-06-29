@@ -104,7 +104,7 @@ transfer.one.hrc20:
 	@read -p "Type Toaddress: " toaddr; \
 	 read -p "Type Amount: " amount; \
 	 python -c "from tx import transfer_hrc20; transfer_hrc20(hrp='htdf',\
-	 											  contractaddr='htdf1nkkc48lfchy92ahg50akj2384v4yfqpm4hsq6y',\
+	 											  contractaddr='htdf1y2tmw3aa65dvlgcpsz2pd9vqyz3587vncjlmld',\
 	 											  fromprivkey='${HTDF_DISTR_KEY}',\
 												  toaddr='$$toaddr',\
 												  namount=$$amount,\

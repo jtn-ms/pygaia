@@ -199,7 +199,7 @@ def bech2hex(bech):
     converted = convertbits(data, 5, 8, False)
     hexes = []
     for b in converted:
-        byte = hex(b).strip("0x")
+        byte = hex(b).lstrip("0x")
         hexes.append('0'*(2-len(byte))+byte)
     return ''.join(hexes)
 
@@ -238,5 +238,5 @@ def genkeys(hrp='htdf',count=10,filepath=None):
             
             
 if __name__ == "__main__":
-    print bech2hex("htdf10fjsnx05ewesqjlmy5pesxzwa2t7z4e6vvqxvj")
-    print hex2bech(bech2hex("htdf10fjsnx05ewesqjlmy5pesxzwa2t7z4e6vvqxvj"))
+    print bech2hex("htdf1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2")
+    print hex2bech(bech2hex("htdf1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2"))
