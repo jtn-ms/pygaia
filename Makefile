@@ -455,4 +455,18 @@ param.address:
 param.int:
 	@read -p "uint: " uint;\
 	 python3 -c "hexstr=hex($$uint)[2:];\
-	 			print('0'*(64-len(hexstr))+hexstr)"
+	 			 print('0'*(64-len(hexstr))+hexstr)"
+
+# In:aaa
+# Out:0000000000000000000000000000000000000000000000000000000000616161
+param.string:
+	@read -p "string: " string;\
+	 python3 -c "hexstr=b'$$string'.hex();\
+	 			 print('0'*(64-len(hexstr))+hexstr)"
+
+# In:616161
+# Out:aaa
+hex2str:
+	@read -p "hexstr: " hexstr;\
+	 python3 -c "string=bytes.fromhex('$$hexstr').decode('utf-8') ;\
+	 			 print(string)"	 
