@@ -1,5 +1,5 @@
 {
-    "rest-server":"47.113.124.230:1317",
+    "rest-server":"htdf2020-node01.orientwalt.cn:1317/",
     "chain-id":"mainchain",
     "default-gas":30000,
     "default-fee":100,
