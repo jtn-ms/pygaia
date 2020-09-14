@@ -155,9 +155,9 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
     from key import privkey2addr
     _,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
     #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
-    print restapi
+    print(restapi)
     rsp = accountinfo(fromaddr,restapi)
-    print rsp
+    print(rsp)
     naccnumber, nsequence = rsp["accountnumber"],rsp["sequence"]
     nbalance = rsp["balance"] * (10**8) - gaswanted*gasprice # transfer all balance if namount < 0
     if nbalance < 0: print('no balance'); return
