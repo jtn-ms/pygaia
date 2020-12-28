@@ -219,12 +219,12 @@ localhost = '127.0.0.1'
 testnet = '39.108.251.132'
 port = '1317'
 if __name__ == "__main__":
-    fromprivkey = 'c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d'#htdf1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u
-    contractaddr='htdf19xzu8pnkryfmww3l5z4mcmll9qxnt8dla0yyn3'#'htdf1tdm4fyfc0z3ynl44kj8ykyjptx5h484r0q6gj7'
+    fromprivkey = '82467e3de6c1499866eda81f493aa502f1a65bd6d7f7e669df63139e9fe37adb'#htdf1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u
+    contractaddr='htdf1czghxg3ln8vv7dpk3rxvx2zns2asqd5lxp69ch'#'htdf1tdm4fyfc0z3ynl44kj8ykyjptx5h484r0q6gj7'
     restapi = '%s:%s'%(testnet,port)#'127.0.0.1:1317'
     chainid = 'testchain'
-    gaswanted=7500000
-    data='a9059cbb00000000000000000000000090efab18781bd2d3a1286ba7d390832aecb2950800000000000000000000000000000000000000000000003635c9adc5dea00000'#receive:'a3e76c0f'
+    gaswanted=750000
+    data='bb3ded46'#receive:'a3e76c0f'
     namount=0#100000
     execute('htdf',contractaddr=contractaddr,fromprivkey=fromprivkey,namount=namount,data=data,gaswanted=gaswanted,restapi=restapi)
     
