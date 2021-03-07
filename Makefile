@@ -9,7 +9,7 @@
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
-HTDF_CONFIG_FILE = $(CURDIR)/config/mainnet/htdf.json
+HTDF_CONFIG_FILE = $(CURDIR)/config/10000/htdf.json
 USDP_CONFIG_FILE = $(CURDIR)/config/10000/usdp.json
 # [htdf]
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
@@ -104,7 +104,7 @@ transfer.one.hrc20:
 	@read -p "Type Toaddress: " toaddr; \
 	 read -p "Type Amount: " amount; \
 	 python -c "from tx import transfer_hrc20; transfer_hrc20(hrp='htdf',\
-	 											  contractaddr='htdf1y2tmw3aa65dvlgcpsz2pd9vqyz3587vncjlmld',\
+	 											  contractaddr='htdf1gjqlacff7tttnk7shaqgszexvt74avrh507knj',\
 	 											  fromprivkey='${HTDF_DISTR_KEY}',\
 												  toaddr='$$toaddr',\
 												  namount=$$amount,\
@@ -184,12 +184,12 @@ transfer.two.usdp:
 
 transfer.multi.htdf:
 	@python -c "from tx import transferMulti; transferMulti(hrp='htdf',\
-	 											  fromprivkey='${HTDF_DISTR_KEY}',\
+	 											  fromprivkey='b948544b053ebfac33f21f2a7a9e1bb8dc5e78c1bf3d6b0f5b6eaed94ea49797',\
 												  txlistfile='./db/txs/tx.list',\
-												  restapi='${HTDF_REST_SERVER}',\
-												  chainid='${HTDF_CHAIN_ID}',\
-												  gaswanted=${HTDF_DEFAULT_TX_GAS},\
-												  gasprice=${HTDF_DEFAULT_TX_FEE})";
+												  restapi='39.108.251.132:1317',\
+												  chainid='testchain',\
+												  gaswanted=30000,\
+												  gasprice=100)";
 # check account
 chkacc.one.htdf:
 	@read -p "Type htdf address: " addr; \
@@ -206,7 +206,7 @@ chkacc.one.usdp:
 	 python -c "from tx import accountinfo; print accountinfo('$$addr','${USDP_REST_SERVER}')"
 
 chkacc.multi.htdf:
-	@python -c "from tx import chkaccMulti; chkaccMulti('db/txs/validators.list','${HTDF_REST_SERVER}')"
+	@python -c "from tx import chkaccMulti; chkaccMulti('db/txs/acnts.list','39.108.251.132:1317')"
 
 
 compare.multi:

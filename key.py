@@ -238,5 +238,5 @@ def genkeys(hrp='htdf',count=10,filepath=None):
             
             
 if __name__ == "__main__":
-    print bech2hex("htdf1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2")
-    print hex2bech(bech2hex("htdf1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2"))
+    print(bech2hex("htdf1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2"))
+    print(hex2bech(bech2hex("htdf1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2")))

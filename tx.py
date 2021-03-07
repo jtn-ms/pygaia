@@ -188,9 +188,9 @@ def transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100,
     _,fromaddr = privkey2addr(fromprivkey,hrp=hrp)
     if debug: end = time.time();print('privkey2addr: %d'%int(end-start));start=end
     #------------------------------步骤1 : 获取地址信息拼装要签名的数据-----------------------------------
-    print restapi
+    print(restapi)
     rsp = accountinfo(fromaddr,restapi)
-    print rsp
+    print(rsp)
     naccnumber, nsequence = rsp["accountnumber"],rsp["sequence"]
     if namount < 0: namount = rsp["balance"] * (10**8) - gaswanted*gasprice # transfer all balance if namount < 0
     if namount < 0: print('no balance'); return
