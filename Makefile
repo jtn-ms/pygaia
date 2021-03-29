@@ -15,7 +15,7 @@ USDP_CONFIG_FILE = $(CURDIR)/config/10000/usdp.json
 HTDF_REST_SERVER = $$(findkey rest-server ${HTDF_CONFIG_FILE})
 HTDF_CHAIN_ID = $$(findkey chain-id ${HTDF_CONFIG_FILE})
 HTDF_DEFAULT_TX_GAS = $$(findkey default-gas ${HTDF_CONFIG_FILE})
-HTDF_DEFAULT_TX_FEE = $$(findkey default-fee ${HTDF_CONFIG_FILE})
+HTDF_DEFAULT_GAS_PRICE = $$(findkey default-fee ${HTDF_CONFIG_FILE})
 HTDF_DB_KEY = $$(findkey child-key-path ${HTDF_CONFIG_FILE})
 HTDF_GOV_KEY = $$(findkey father-key ${HTDF_CONFIG_FILE})
 HTDF_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${HTDF_GOV_KEY}',hrp='htdf')[1]")
@@ -26,7 +26,7 @@ HTDF_DISTR_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr
 USDP_REST_SERVER = $$(findkey rest-server ${USDP_CONFIG_FILE})
 USDP_CHAIN_ID = $$(findkey chain-id ${USDP_CONFIG_FILE})
 USDP_DEFAULT_TX_GAS = $$(findkey default-gas ${USDP_CONFIG_FILE})
-USDP_DEFAULT_TX_FEE = $$(findkey default-fee ${USDP_CONFIG_FILE})
+USDP_DEFAULT_GAS_PRICE = $$(findkey default-fee ${USDP_CONFIG_FILE})
 USDP_DB_KEY = $$(findkey child-key-path ${USDP_CONFIG_FILE})
 USDP_GOV_KEY = $$(findkey father-key ${USDP_CONFIG_FILE})
 USDP_GOV_ADDR = $$(python -c "from key import privkey2addr; print privkey2addr('${USDP_GOV_KEY}',hrp='usdp')[1]")
@@ -41,6 +41,7 @@ check:
 	@echo ${HTDF_REST_SERVER}
 	@echo ${HTDF_CHAIN_ID}
 	@echo ${HTDF_DEFAULT_TX_GAS}
+	@echo ${HTDF_DEFAULT_GAS_PRICE}
 	@echo ${HTDF_DB_KEY}
 	@echo ${HTDF_GOV_KEY}
 	@echo ${HTDF_DISTR_KEY}
@@ -70,7 +71,7 @@ accu.htdf:
 														restapi='${HTDF_REST_SERVER}',\
 														chainid='${HTDF_CHAIN_ID}',\
 														ndefault_gas=${HTDF_DEFAULT_TX_GAS},\
-														ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
+														ndefault_fee=${HTDF_DEFAULT_GAS_PRICE})";
 ACCU_AMOUNT = 10000#satoshi, default:None
 accu.usdp:
 	@python -c "from accu import accumulateEx; accumulateEx(toaddr='${USDP_GOV_ADDR}',\
@@ -78,7 +79,7 @@ accu.usdp:
 														restapi='${USDP_REST_SERVER}',\
 														chainid='${USDP_CHAIN_ID}',\
 														ndefault_gas=${USDP_DEFAULT_TX_GAS},\
-														ndefault_fee=${USDP_DEFAULT_TX_FEE})";
+														ndefault_fee=${USDP_DEFAULT_GAS_PRICE})";
 
 #  %%%%%
 # {@ | ~} 
@@ -97,7 +98,7 @@ transfer.one.htdf:
 												  restapi='${HTDF_REST_SERVER}',\
 												  chainid='${HTDF_CHAIN_ID}',\
 												  gaswanted=${HTDF_DEFAULT_TX_GAS},\
-												  gasprice=${HTDF_DEFAULT_TX_FEE})";
+												  gasprice=${HTDF_DEFAULT_GAS_PRICE})";
 
 transfer.one.hrc20:
 	@echo ${HTDF_DISTR_KEY}
@@ -111,7 +112,7 @@ transfer.one.hrc20:
 												  restapi='${HTDF_REST_SERVER}',\
 												  chainid='${HTDF_CHAIN_ID}',\
 												  gaswanted=${HRC_DEFAULT_TX_GAS},\
-												  gasprice=${HTDF_DEFAULT_TX_FEE})";
+												  gasprice=${HTDF_DEFAULT_GAS_PRICE})";
 
 run.contract.htdf:
 	@echo ${HTDF_DISTR_KEY}
@@ -125,7 +126,7 @@ run.contract.htdf:
 												  restapi='${HTDF_REST_SERVER}',\
 												  chainid='${HTDF_CHAIN_ID}',\
 												  gaswanted=${HTDF_DEFAULT_TX_GAS},\
-												  gasprice=${HTDF_DEFAULT_TX_FEE},\
+												  gasprice=${HTDF_DEFAULT_GAS_PRICE},\
 												  data='$$data')";
 
 # multiple transactions from one account
@@ -141,7 +142,7 @@ transfer.one.htdf.test:
 															restapi='${HTDF_REST_SERVER}',\
 															chainid='${HTDF_CHAIN_ID}',\
 															gaswanted=${HTDF_DEFAULT_TX_GAS},\
-															gasprice=${HTDF_DEFAULT_TX_FEE})";
+															gasprice=${HTDF_DEFAULT_GAS_PRICE})";
 
 transfer.two.htdf:
 	@read -p "Type From Private Key: " fromprivkey; \
@@ -154,7 +155,7 @@ transfer.two.htdf:
 												  restapi='${HTDF_REST_SERVER}',\
 												  chainid='${HTDF_CHAIN_ID}',\
 												  gaswanted=${HTDF_DEFAULT_TX_GAS},\
-												  gasprice=${HTDF_DEFAULT_TX_FEE})";
+												  gasprice=${HTDF_DEFAULT_GAS_PRICE})";
 
 transfer.one.usdp:
 	@echo ${USDP_DISTR_KEY}
@@ -167,7 +168,7 @@ transfer.one.usdp:
 												  restapi='${USDP_REST_SERVER}',\
 												  chainid='${USDP_CHAIN_ID}',\
 												  gaswanted=${USDP_DEFAULT_TX_GAS},\
-												  gasprice=${USDP_DEFAULT_TX_FEE})";
+												  gasprice=${USDP_DEFAULT_GAS_PRICE})";
 
 transfer.two.usdp:
 	@read -p "Type From Private Key: " fromprivkey; \
@@ -180,7 +181,7 @@ transfer.two.usdp:
 												  restapi='${USDP_REST_SERVER}',\
 												  chainid='${USDP_CHAIN_ID}',\
 												  gaswanted=${USDP_DEFAULT_TX_GAS},\
-												  gasprice=${USDP_DEFAULT_TX_FEE})";
+												  gasprice=${USDP_DEFAULT_GAS_PRICE})";
 
 transfer.multi.htdf:
 	@python -c "from tx import transferMulti; transferMulti(hrp='htdf',\
@@ -338,7 +339,7 @@ distr.htdf:
 											  restapi='${HTDF_REST_SERVER}',\
 											  chainid='${HTDF_CHAIN_ID}',\
 											  ndefault_gas=${HTDF_DEFAULT_TX_GAS},\
-											  ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
+											  ndefault_fee=${HTDF_DEFAULT_GAS_PRICE})";
 
 distr.hrc20:
 	@python -c "from distr import distr_erc20; distr_erc20(fromprivkey='${HTDF_DISTR_KEY}',\
@@ -348,7 +349,7 @@ distr.hrc20:
 											  restapi='${HTDF_REST_SERVER}',\
 											  chainid='${HTDF_CHAIN_ID}',\
 											  ndefault_gas=${HRC_DEFAULT_TX_GAS},\
-											  ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
+											  ndefault_fee=${HTDF_DEFAULT_GAS_PRICE})";
 DISTR_AMOUNT = 1000000
 distr.usdp:
 	@python -c "from distr import distr; distr(fromprivkey='${USDP_DISTR_KEY}',\
@@ -357,7 +358,7 @@ distr.usdp:
 											  restapi='${USDP_REST_SERVER}',\
 											  chainid='${USDP_CHAIN_ID}',\
 											  ndefault_gas=${USDP_DEFAULT_TX_GAS},\
-											  ndefault_fee=${USDP_DEFAULT_TX_FEE},\
+											  ndefault_fee=${USDP_DEFAULT_GAS_PRICE},\
 											  nAmount=${DISTR_AMOUNT})";
 
 distr.usdp.count:
@@ -376,7 +377,7 @@ distrex.usdp:
 											  		restapi='${USDP_REST_SERVER}',\
 											  		chainid='${USDP_CHAIN_ID}',\
 											  		ndefault_gas=${USDP_DEFAULT_TX_GAS},\
-											  		ndefault_fee=${USDP_DEFAULT_TX_FEE})";
+											  		ndefault_fee=${USDP_DEFAULT_GAS_PRICE})";
 
 distrex.htdf:
 	@python -c "from distr import distrex;  distrex(hrp='htdf',\
@@ -384,7 +385,7 @@ distrex.htdf:
 											  		restapi='${HTDF_REST_SERVER}',\
 											  		chainid='${HTDF_CHAIN_ID}',\
 											  		ndefault_gas=${HTDF_DEFAULT_TX_GAS},\
-											  		ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
+											  		ndefault_fee=${HTDF_DEFAULT_GAS_PRICE})";
 
 flood.htdf:
 	@python -c "from flood import flood;  flood(hrp='htdf',\
@@ -392,7 +393,7 @@ flood.htdf:
 											  	restapi='${HTDF_REST_SERVER}',\
 											  	chainid='${HTDF_CHAIN_ID}',\
 											  	ndefault_gas=${HTDF_DEFAULT_TX_GAS},\
-											  	ndefault_fee=${HTDF_DEFAULT_TX_FEE})";
+											  	ndefault_fee=${HTDF_DEFAULT_GAS_PRICE})";
 
 flood.usdp:
 	@python -c "from flood import flood;  flood(hrp='usdp',\
@@ -400,7 +401,7 @@ flood.usdp:
 											  	restapi='${USDP_REST_SERVER}',\
 											  	chainid='${USDP_CHAIN_ID}',\
 											  	ndefault_gas=${USDP_DEFAULT_TX_GAS},\
-											  	ndefault_fee=${USDP_DEFAULT_TX_FEE})";
+											  	ndefault_fee=${USDP_DEFAULT_GAS_PRICE})";
 #  %%%%%
 # {^ | ^} 
 #    _		>>>	Maid
