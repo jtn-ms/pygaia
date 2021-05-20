@@ -203,7 +203,7 @@ def bech2hex(bech):
         hexes.append('0'*(2-len(byte))+byte)
     return ''.join(hexes)
 
-def hex2bech(hex, hrp='htdf'):
+def hex2bech(hex, hrp='sscq'):
     data = [int(hex[2*i:2*i+2],16) for i in range(len(hex)/2)]
     converted = convertbits(data, 8, 5)
     return bech32_encode(hrp, converted)
@@ -211,7 +211,7 @@ def hex2bech(hex, hrp='htdf'):
 def genkey(hrp='usdp',keystring=None):
     '''
     USDP 生成地址
-    :param hrp:  前缀 , USDP和 HTDF 通用
+    :param hrp:  前缀 , USDP和 SSCQ 通用
     :return: (privkey, pubKey, addr)
     '''
 
@@ -225,7 +225,7 @@ def genkey(hrp='usdp',keystring=None):
 
 import multiprocessing
 from functools import partial
-def genkeys(hrp='htdf',count=10,filepath=None):
+def genkeys(hrp='sscq',count=10,filepath=None):
     accs = []
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
     outputs = pool.map(genkey,[hrp]*count)
@@ -238,5 +238,5 @@ def genkeys(hrp='htdf',count=10,filepath=None):
             
             
 if __name__ == "__main__":
-    print(bech2hex("htdf1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2"))
-    print(hex2bech(bech2hex("htdf1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2")))
+    print(bech2hex("sscq1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2"))
+    print(hex2bech(bech2hex("sscq1jrh6kxrcr0fd8gfgdwna8yyr9tkt99ggmz9ja2")))

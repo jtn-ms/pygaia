@@ -13,7 +13,7 @@ def broadcast(fromaddr, toaddr, namount, gasprice, gaswanted, b64PubKey, b64Data
         "type": "auth/StdTx",
         "value":{
             "msg": [{
-                "type": "htdfservice/send",  
+                "type": "sscqservice/send",  
                 "value":{
                     "From": "%s",
                     "To": "%s",
@@ -175,7 +175,7 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
 # [batchsend]
 # 
 # [payabletest]
-# contract: htdf1ktzygz7ms80977m678dywt45zk5kz2c8gr7dke
+# contract: sscq1ktzygz7ms80977m678dywt45zk5kz2c8gr7dke
 # transfer: 30a65824000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000003e8
 # receive: a3e76c0f
 # send: c4cbfd89
@@ -185,11 +185,11 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
 # **********************************************************************
 # **********************************************************************
 # [PAYABLE]
-# the htdf token which is transfered to a contract address by payable function is used insides the contract.
+# the sscq token which is transfered to a contract address by payable function is used insides the contract.
 # anyone call any functions of the contract to move the fund. but nothing more.
 # you can transfer the fund to any account if the contract code has no restriction
 # ,but the amount can't exceed the one that is transfered to the contract by payable function callings.
-# htdf of msg.value to contract is used by anyone to be touched.
+# sscq of msg.value to contract is used by anyone to be touched.
 # [AIRDROP]
 # anyone call drop function to move any accounts' token, which is approved in token contract, to any account.
 # allowed[donater.address][airdrop.contract] = x allowed you to use airdrop.contract to touch donater' token as you wish.
@@ -197,34 +197,34 @@ def execute(hrp,contractaddr,fromprivkey, data, namount=0, chainid='testchain',g
 # **********************************************************************
 # *************************************************************************
 # [exchange]
-# contract: htdf100had89f22avvncvwswjdqcy2z43mgxa33zk4y(0000000000000000000000007befd69ca952bac64f0c741d26830450ab1da0dd)
-# token2htdf: 038ebf0c000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d750000000000000000000000000000000000000000000000000000000000989680
-# htdf2token: 52d07be9000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d75
+# contract: sscq100had89f22avvncvwswjdqcy2z43mgxa33zk4y(0000000000000000000000007befd69ca952bac64f0c741d26830450ab1da0dd)
+# token2sscq: 038ebf0c000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d750000000000000000000000000000000000000000000000000000000000989680
+# sscq2token: 52d07be9000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d75
 # [hrc20]
 # founder: 4d853ee5
-# contract: htdf1qelc304f9cak43eh4d6maccsmagwgmt4gugz45(000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d75)
+# contract: sscq1qelc304f9cak43eh4d6maccsmagwgmt4gugz45(000000000000000000000000067f88bea92e3b6ac737ab75bee310df50e46d75)
 # approve.data:095ea7b30000000000000000000000007befd69ca952bac64f0c741d26830450ab1da0dd00000000000000000000000000000000000000000000021e19e0c9bab2400000
 # transfer: a9059cbb00000000000000000000000006024f431d43244453661bd77bfcaa67f025210d00000000000000000000000000000000000000000000003635c9adc5dea00000
 # balanceOf: 70a0823100000000000000000000000006024f431d43244453661bd77bfcaa67f025210d
 #            70a0823100000000000000000000000085ced8ddf399d75c9e381e01f3bddcefb9132fe9 
 # *************************************************************************
 # [private keys]
-# founder = c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d # htdf1sh8d3h0nn8t4e83crcql80wua7u3xtlfj5dej3 # 00000000000000000000000085ced8ddf399d75c9e381e01f3bddcefb9132fe9
-# user = dcc7debf1e3d432a7e1cf94d5340f68fd5d1019381e0074ed4fd6512c007b9d2 # htdf1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u # 00000000000000000000000006024f431d43244453661bd77bfcaa67f025210d
+# founder = c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d # sscq1sh8d3h0nn8t4e83crcql80wua7u3xtlfj5dej3 # 00000000000000000000000085ced8ddf399d75c9e381e01f3bddcefb9132fe9
+# user = dcc7debf1e3d432a7e1cf94d5340f68fd5d1019381e0074ed4fd6512c007b9d2 # sscq1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u # 00000000000000000000000006024f431d43244453661bd77bfcaa67f025210d
 # [procedures]
 # 1. approves to founder, user
-# 2. transfer htdf,token to founder, user
+# 2. transfer sscq,token to founder, user
 # 3. 
 localhost = '127.0.0.1'
 testnet = '39.108.251.132'
 port = '1317'
 if __name__ == "__main__":
-    fromprivkey = 'c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d'#htdf1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u
-    contractaddr='htdf1f74m3nqhgrxesjfhru49wjhyujjs9fv7v9u6w5'#'htdf1tdm4fyfc0z3ynl44kj8ykyjptx5h484r0q6gj7'
+    fromprivkey = 'c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d'#sscq1qcpy7scagvjyg5mxr0thhl92vlcz2ggdvfkh2u
+    contractaddr='sscq1f74m3nqhgrxesjfhru49wjhyujjs9fv7v9u6w5'#'sscq1tdm4fyfc0z3ynl44kj8ykyjptx5h484r0q6gj7'
     restapi = '%s:%s'%(localhost,port)#'127.0.0.1:1317'
     chainid = 'testchain'
     gaswanted=750000
     data='a9059cbb00000000000000000000000006024f431d43244453661bd77bfcaa67f025210d0000000000000000000000000000000000000000000000000000005c9adc5dea'#receive:'a3e76c0f'
     namount=0#100000
-    execute('htdf',contractaddr=contractaddr,fromprivkey=fromprivkey,namount=namount,data=data,gaswanted=gaswanted,restapi=restapi)
+    execute('sscq',contractaddr=contractaddr,fromprivkey=fromprivkey,namount=namount,data=data,gaswanted=gaswanted,restapi=restapi)
     

@@ -45,7 +45,7 @@ def broadcast(fromaddr, toaddr, namount, gasprice, gaswanted, b64PubKey, b64Data
         "type": "auth/StdTx",
         "value":{
             "msg": [{
-                "type": "htdfservice/send",  
+                "type": "sscqservice/send",  
                 "value":{
                     "From": "%s",
                     "To": "%s",
@@ -274,8 +274,8 @@ def compareBalances(balancebefore='./db/txs/balance.before',balanceafter='./db/t
 # 0x95d89b41 symbol()
 # 0xa9059cbb transfer(address,uint256)
 # 0xdd62ed3e allowance(address,address)
-# BWC: htdf12dvguqedrvgfrdl35hcgfmz4fz6rm6chrvf96g
-# CVS: htdf1ks6vgnp25r2eaa9k70dmsp448wmrma8mnucrsz
+# BWC: sscq12dvguqedrvgfrdl35hcgfmz4fz6rm6chrvf96g
+# CVS: sscq1ks6vgnp25r2eaa9k70dmsp448wmrma8mnucrsz
 
 def queryGetBalance(bechaddr):
     hexfunc="70a08231"
@@ -356,14 +356,14 @@ def test_transfer(hrp,fromprivkey, toaddr, namount, chainid='testchain',gasprice
 if __name__ == "__main__":
     fromprivkey = 'c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65'
     frompubkey = '02fa63a1fc6f38936562bac0649dde139b527d37788dd466d27259753fe5e555d0'
-    fromaddr = 'htdf12sc78p9nr9s8qj06e2tqfqhlwlx0ncuq8l9gsh'
-    toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r'
+    fromaddr = 'sscq12sc78p9nr9s8qj06e2tqfqhlwlx0ncuq8l9gsh'
+    toaddr = 'sscq18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r'
     restapi = '47.98.194.7:1317'
     chainid = 'testchain'
     gaswanted,gasprice = 200000, 100
-    nAmount = 0.001234 * (10**8)    #以satoshi为单位,    1USDP  = 10^8 satoshi    1HTDF=10^8 satoshi
+    nAmount = 0.001234 * (10**8)    #以satoshi为单位,    1USDP  = 10^8 satoshi    1SSCQ=10^8 satoshi
     from key import privkey2addr
     print accountinfo(fromaddr)
-    print privkey2addr(fromprivkey,hrp='htdf')
-    transfer('htdf',fromprivkey, toaddr, nAmount,chainid, gasprice, gaswanted,restapi)
+    print privkey2addr(fromprivkey,hrp='sscq')
+    transfer('sscq',fromprivkey, toaddr, nAmount,chainid, gasprice, gaswanted,restapi)
     

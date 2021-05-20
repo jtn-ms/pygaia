@@ -3,6 +3,5 @@
     "chain-id":"testchain",
     "default-gas":30000,
     "default-fee":100,
-    "father-addr":"htdf1aax569cs769m33yuss5kqzuxh7ylvjyuv3epk3",
-    "child-key-path":"db/10000/htdf.privkey"
+    "child-key-path":"db/10000/sscq.privkey"
 }

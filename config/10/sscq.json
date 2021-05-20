@@ -1,9 +1,9 @@
 {
-    "rest-server":"htdf2020-node01.orientwalt.cn:1317/",
-    "chain-id":"mainchain",
+    "rest-server":"127.0.0.1:1317",
+    "chain-id":"testchain",
     "default-gas":30000,
     "default-fee":100,
     "mother-key":"c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d",
     "father-key":"c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d",
-    "child-key-path":"/home/falcon/htdf.privkey"
+    "child-key-path":"db/10/sscq.privkey"
 }

@@ -56,10 +56,10 @@ class Tab(QTabWidget):
             event.ignore()
             
     def generateTab(self,filepath):
-        tag = "htdf" if "htdf" in filepath else "usdp"
+        tag = "sscq" if "sscq" in filepath else "usdp"
         from handy.jzon.handler import load
         config = load(filepath)
-        ### tab.htdf
+        ### tab.sscq
         labels,edits,buttons = {},{},{}
         for key in self.keys:
             label = QLabel(self) if not tag in self.labels.keys() else self.labels[tag][key];
@@ -88,17 +88,17 @@ class Tab(QTabWidget):
     def initialize(self):
         self.labels,self.edits,self.buttons,self.actions = {},{},{},{}
         ## tabs
-        tab_htdf = QWidget()
+        tab_sscq = QWidget()
         tab_usdp = QWidget()
 
-        tab_htdf.setLayout(self.generateTab("config/htdf.json"))
+        tab_sscq.setLayout(self.generateTab("config/sscq.json"))
         tab_usdp.setLayout(self.generateTab("config/usdp.json"))
         
         ### mainframe 
         self.resize(500,350)
         self.setMinimumSize(500,350)
         self.setMaximumSize(500,350)
-        self.addTab(tab_htdf,"HTDF")
+        self.addTab(tab_sscq,"SSCQ")
         self.addTab(tab_usdp,"USDP")
         self.setWindowTitle('归集')
         self.show()

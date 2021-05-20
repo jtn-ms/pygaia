@@ -6,7 +6,7 @@ from accu import getitems
 # one to all
 blk_time=10
 def distr(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65',
-          hrp='htdf',privkeyfile = 'htdf.privkey',
+          hrp='sscq',privkeyfile = 'sscq.privkey',
           restapi='47.98.194.7:1317', chainid='testchain',
           ndefault_gas=30000,ndefault_fee=100, namount = 1.234 * (10**8)):
     import time
@@ -30,8 +30,8 @@ def distr(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc1
         nsequence+=1
         
 def distr_erc20(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad3080fdc10731e65',
-                   contractaddr='htdf12dvguqedrvgfrdl35hcgfmz4fz6rm6chrvf96g',
-                    hrp='htdf',privkeyfile = 'htdf.privkey',
+                   contractaddr='sscq12dvguqedrvgfrdl35hcgfmz4fz6rm6chrvf96g',
+                    hrp='sscq',privkeyfile = 'sscq.privkey',
                     restapi='47.98.194.7:1317', chainid='testchain',
                     ndefault_gas=500000,ndefault_fee=100, namount = 1.1 * (10**8)):
     import time
@@ -54,7 +54,7 @@ def distr_erc20(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad30
         transferEx_hrc20(hrp,contractaddr,fromprivkey, toaddr, namount,naccnumber,nsequence, chainid, ndefault_fee, ndefault_gas,restapi)
         nsequence+=1
 
-def count(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317',debug=False):
+def count(privkeyfile='sscq.privkey',restapi='47.98.194.7:1317',debug=False):
     nonzeros,zeros = [],[]
     for item in getitems(privkeyfile):
         addr,privkey=item[1],item[2]
@@ -66,7 +66,7 @@ def count(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317',debug=False):
 
 # nonzeros to zeros
 from multiprocessing import Process
-def distrex(hrp='htdf',privkeyfile='htdf.privkey',
+def distrex(hrp='sscq',privkeyfile='sscq.privkey',
             restapi='47.98.194.7:1317', chainid='testchain',
             ndefault_gas=30000,ndefault_fee=100):
     nonzeros,zeros = count(privkeyfile,restapi)
@@ -84,7 +84,7 @@ def distrex(hrp='htdf',privkeyfile='htdf.privkey',
         num += 1
 
 # db to db
-def distrp2p(hrp='htdf',fromdb='db/100/htdf.privkey',todb='db/10000/htdf.privkey',
+def distrp2p(hrp='sscq',fromdb='db/100/sscq.privkey',todb='db/10000/sscq.privkey',
             restapi='47.98.194.7:1317', chainid='testchain',
             ndefault_gas=30000,ndefault_fee=100):
     nonzeros,_ = count(fromdb,restapi)

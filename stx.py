@@ -13,15 +13,15 @@ def broadcast(fromaddr, b64PubKey, b64Data,restapi='localhost:1317'):
         "type": "auth/StdTx",
         "value":{
             "msg": [{
-                "type": "htdf/MsgEditValidator", 
+                "type": "sscq/MsgEditValidator", 
                 "value": {
                     "Description": {
                         "details": "To infinity and beyond!", 
                         "identity": "23870f5bb12ba2c4967c46db", 
                         "moniker": "sss", 
-                        "website": "https://htdf.network"
+                        "website": "https://sscq.network"
                     }, 
-                    "address": "htdfvaloper1v8j6r7ttfac07nuhy8uhxgumy7442ck532287d", 
+                    "address": "sscqvaloper1v8j6r7ttfac07nuhy8uhxgumy7442ck532287d", 
                     "commission_rate": "0.102000000000000000", 
                     "min_self_delegation": null
                 }
@@ -86,15 +86,15 @@ def sign(hrp,fromprivkey,nsequence, naccnumber,chainid='testchain'):
 	},\
     "memo": "",\
 	"msgs": [{\
-        "type": "htdf/MsgEditValidator",\
+        "type": "sscq/MsgEditValidator",\
         "value": {\
             "Description": {\
                 "details": "To infinity and beyond!",\
                 "identity": "23870f5bb12ba2c4967c46db",\
                 "moniker": "sss",\
-                "website": "https://htdf.network"\
+                "website": "https://sscq.network"\
             },\
-            "address": "htdfvaloper1v8j6r7ttfac07nuhy8uhxgumy7442ck532287d",\
+            "address": "sscqvaloper1v8j6r7ttfac07nuhy8uhxgumy7442ck532287d",\
             "commission_rate": "0.102000000000000000",\
             "min_self_delegation": null\
         }
@@ -174,11 +174,11 @@ def transfer(hrp,fromprivkey, chainid='testchain',restapi='0.0.0.0:1317',debug=T
 if __name__ == "__main__":
     fromprivkey = '8841dba4617c63425f502c763bbd113fc49e6a69d223985f93f4d53d28616ba1'
     frompubkey = '03fd3ccea6fbf44d0aca9fec7fc3ba0ff6863845c07216ecf2247ad4b70d93e245'
-    fromaddr = 'htdf1v8j6r7ttfac07nuhy8uhxgumy7442ck5mnj7fx'
+    fromaddr = 'sscq1v8j6r7ttfac07nuhy8uhxgumy7442ck5mnj7fx'
     restapi = '120.77.170.207:1317'
     chainid = 'testchain'
     from key import privkey2addr
     print accountinfo(fromaddr,restapi=restapi)
-    print privkey2addr(fromprivkey,hrp='htdf')
-    transfer('htdf',fromprivkey,restapi=restapi)
+    print privkey2addr(fromprivkey,hrp='sscq')
+    transfer('sscq',fromprivkey,restapi=restapi)
     

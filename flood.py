@@ -6,7 +6,7 @@ from accu import getitems
 # first-half to second-half
 # second-half to first-half
 from multiprocessing import Process
-def flood(hrp='htdf',privkeyfile='htdf.privkey',
+def flood(hrp='sscq',privkeyfile='sscq.privkey',
           restapi='47.98.194.7:1317', chainid='testchain',
           ndefault_gas=30000,ndefault_fee=100,namount=200000):
     accs = getitems(privkeyfile)
@@ -22,4 +22,4 @@ def flood(hrp='htdf',privkeyfile='htdf.privkey',
             if index % 20 == 0: time.sleep(10)
 
 if __name__ == "__main__":
-    flood('db/10000/htdf.privkey')
+    flood('db/10000/sscq.privkey')

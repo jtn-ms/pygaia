@@ -18,8 +18,8 @@ import multiprocessing
 from functools import partial
 from multiprocessing import Process
 
-def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
-               privkeyfile = 'htdf.privkey',
+def accumulate(toaddr = 'sscq18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
+               privkeyfile = 'sscq.privkey',
                restapi='47.98.194.7:1317', chainid='testchain',
                ndefault_gas=30000,ndefault_fee=100,nAmount=None):
     for item in getitems(privkeyfile):
@@ -28,7 +28,7 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
         try: _,fromaddr = privkey2addr(fromprivkey,hrp)
         except: continue
         if fromaddr != item[1] or hrp != fromaddr[:4]: continue
-        namount = accountinfo(fromaddr,restapi)["balance"] * (10**8) - ndefault_fee#以satoshi为单位,    1USDP  = 10^8 satoshi    1HTDF=10^8 satoshi
+        namount = accountinfo(fromaddr,restapi)["balance"] * (10**8) - ndefault_fee#以satoshi为单位,    1USDP  = 10^8 satoshi    1SSCQ=10^8 satoshi
         if namount < 0: continue
         #try: threading.Thread(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
         try:
@@ -38,8 +38,8 @@ def accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
                 Process(target=transfer,args=(hrp,fromprivkey, toaddr, namount, chainid, ndefault_fee, ndefault_gas,restapi)).start()
         except: print("Error: unable to start thread")
 
-def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
-                 privkeyfile = 'htdf.privkey',
+def accumulateEx(toaddr = 'sscq18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
+                 privkeyfile = 'sscq.privkey',
                  restapi='47.98.194.7:1317', chainid='testchain',
                  ndefault_gas=30000,ndefault_fee=100,nAmount=None):
     # repeats = 500
@@ -56,7 +56,7 @@ def accumulateEx(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
         # import time
         # time.sleep(10)
         
-def report(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317'):
+def report(privkeyfile='sscq.privkey',restapi='47.98.194.7:1317'):
     # balance = 0
     params = []
     for item in getitems(privkeyfile):
@@ -69,9 +69,9 @@ def report(privkeyfile='htdf.privkey',restapi='47.98.194.7:1317'):
     print(sum(output["balance"] for output in outputs if output["balance"]>0))
     
 if __name__ == "__main__":
-    # getitems('db/htdf.privkey')
-    # report('db/htdf.privkey')
-    accumulate(toaddr = 'htdf18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
-               privkeyfile = 'db/accu/htdf.privkey',
+    # getitems('db/sscq.privkey')
+    # report('db/sscq.privkey')
+    accumulate(toaddr = 'sscq18rudpyaewcku05c87xzgaw4rl8z3e5s6vefu4r',
+               privkeyfile = 'db/accu/sscq.privkey',
                restapi='47.98.194.7:1317', chainid='testchain',
                ndefault_gas=30000,ndefault_fee=100)

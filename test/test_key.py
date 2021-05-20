@@ -3,10 +3,10 @@ import py.test
 
 from key import genkey
 
-def test_htdf(count=10):
+def test_sscq(count=10):
     lstRet = []
     for i in range(count):
-        lstRet.append(genkey('htdf'))
+        lstRet.append(genkey('sscq'))
     assert len(lstRet) == count
     
 def test_usdp(count=10):

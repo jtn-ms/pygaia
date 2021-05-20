@@ -1,9 +1,9 @@
 {
-    "rest-server":"192.168.10.211:1317",
+    "rest-server":"120.79.130.139:1317",
     "chain-id":"testchain",
     "default-gas":30000,
     "default-fee":100,
     "mother-key":"c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d",
     "father-key":"c06d9c5b991122f7c51a2cb89fc8efbf3e47e746c980f5afdbf2ac45f88aaf3d",
-    "child-key-path":"db/1000/htdf.privkey"
+    "child-key-path":"db/100/sscq.privkey"
 }
