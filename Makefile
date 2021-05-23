@@ -9,7 +9,7 @@
 #	mother(facet) -->-|---------->|-->- father(gather)
 #			  		  |~~~~~~~~~~~|
 #			  		  |---------->|
-SSCQ_CONFIG_FILE = $(CURDIR)/config/10000/sscq.json
+SSCQ_CONFIG_FILE = $(CURDIR)/config/mainnet/sscq.json
 # [sscq]
 SSCQ_REST_SERVER = $$(findkey rest-server ${SSCQ_CONFIG_FILE})
 SSCQ_CHAIN_ID = $$(findkey chain-id ${SSCQ_CONFIG_FILE})
@@ -158,7 +158,7 @@ chkacc.one.hrc20:
 	@read -p "Type contract address: " contractaddr; \
 	 read -p "Type sscq address: " addr; \
 	 querydata=$$(python -c "from tx import queryGetBalance; print queryGetBalance('$$addr')");\
-	 curl -X GET "http://${SSCQ_REST_SERVER}/hs/contract/$$contractaddr/$$querydata" -H "accept: application/json"
+	 curl -X GET "http://${SSCQ_REST_SERVER}/ss/contract/$$contractaddr/$$querydata" -H "accept: application/json"
 
 chkacc.multi.sscq:
 	@python -c "from tx import chkaccMulti; chkaccMulti('db/txs/acnts.list','39.108.251.132:1317')"
@@ -205,7 +205,7 @@ airdrop.input.data:
 	 values=$$(python3 -c "hexstr=hex(${ACC_COUNT})[2:]; print('0'*(64-len(hexstr))+hexstr)");\
 	 for index in  $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))"); do \
 	 bechaddr=$$(python -c "from key import genkey; print genkey('sscq','$$keystring$$index')[2]");\
-	 hexaddr=$$(hsutils bech2hex $$bechaddr|row 3|fromstr ": ");\
+	 hexaddr=$$(ssutils bech2hex $$bechaddr|row 3|fromstr ": ");\
 	 lowerhexaddr=$$(lowerstr $$hexaddr);\
 	 param_addr=$$(python -c "print( '0'*(64-len('$$lowerhexaddr'))+'$$lowerhexaddr')");\
 	 value=$$(python -c "import random; print random.randint(100000,10000000)");\
@@ -224,7 +224,7 @@ batchsend.input.data:
 	 for index in  $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))"); do \
 	 privkey=$$(python -c "from key import genkey; print genkey('sscq','$$keystring$$index')[0]");\
 	 bechaddr=$$(python -c "from key import privkey2addr; print privkey2addr('$$privkey',hrp='sscq')[1]");\
-	 hexaddr=$$(hsutils bech2hex $$bechaddr|row 3|fromstr ": ");\
+	 hexaddr=$$(ssutils bech2hex $$bechaddr|row 3|fromstr ": ");\
 	 lowerhexaddr=$$(lowerstr $$hexaddr);\
 	 param_addr=$$(python -c "print( '0'*(64-len('$$lowerhexaddr'))+'$$lowerhexaddr')");\
 	 value=$$(python -c "import random; print random.randint(100000,10000000)");\
@@ -243,7 +243,7 @@ qutoareceive.contract.data:
 	 for index in  $$(python -c "print ' '.join(str(item) for item in range(${ACC_COUNT}))"); do \
 	 privkey=$$(python -c "from key import genkey; print genkey('sscq','$$keystring$$index')[0]");\
 	 bechaddr=$$(python -c "from key import privkey2addr; print privkey2addr('$$privkey',hrp='sscq')[1]");\
-	 hexaddr=$$(hsutils bech2hex $$bechaddr|row 3|fromstr ": ");\
+	 hexaddr=$$(ssutils bech2hex $$bechaddr|row 3|fromstr ": ");\
 	 lowerhexaddr=$$(lowerstr $$hexaddr);\
 	 param_addr=$$(python -c "print( '0'*(64-len('$$lowerhexaddr'))+'$$lowerhexaddr')");\
 	 value=$$(python -c "import random; print random.randint(100000,10000000)");\
@@ -350,7 +350,7 @@ get.method.id:
 #	   000000000000000000000000bf7c3270279e15d623304f2665076a53ba062b06
 param.address:
 	@read -p "bech32addr: " bech32addr;\
-	 byteaddr=$$(hsutils bech2hex $$bech32addr|row 3|fromstr ": ");\
+	 byteaddr=$$(ssutils bech2hex $$bech32addr|row 3|fromstr ": ");\
 	 loweraddr=$$(lowerstr $$byteaddr);\
 	 param_addr=$$(python -c "print( '0'*(64-len('$$loweraddr'))+'$$loweraddr')");\
 	 echo $$param_addr
