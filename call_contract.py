@@ -54,7 +54,7 @@ def broadcast(fromaddr, toaddr, namount, gasprice, gaswanted, b64PubKey, b64Data
     import json
     bcastData = {'tx' :  bcastData }   #rpc参数
     postData = json.dumps(bcastData)
-    rsp = requests.post('http://%s/hs/broadcast'%restapi,  postData)
+    rsp = requests.post('http://%s/ss/broadcast'%restapi,  postData)
 
 
     #处理rpc接口
