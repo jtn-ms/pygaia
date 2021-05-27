@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from tx import transfer,transferEx,transferEx_hrc20,accountinfo
+from tx import transfer,transferEx,transferEx_src20,accountinfo
 from key import privkey2addr
 from accu import getitems
 
@@ -51,7 +51,7 @@ def distr_erc20(fromprivkey='c9960987611a40cac259f2c989c43a79754df356415f164ad30
     #------------------------------步骤2 : 转账-----------------------------------
     for item in getitems(privkeyfile):
         toaddr=item[1]
-        transferEx_hrc20(hrp,contractaddr,fromprivkey, toaddr, namount,naccnumber,nsequence, chainid, ndefault_fee, ndefault_gas,restapi)
+        transferEx_src20(hrp,contractaddr,fromprivkey, toaddr, namount,naccnumber,nsequence, chainid, ndefault_fee, ndefault_gas,restapi)
         nsequence+=1
 
 def count(privkeyfile='sscq.privkey',restapi='47.98.194.7:1317',debug=False):

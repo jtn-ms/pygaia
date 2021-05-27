@@ -84,11 +84,11 @@ transfer.one.sscq:
 												  gaswanted=${SSCQ_DEFAULT_TX_GAS},\
 												  gasprice=${SSCQ_DEFAULT_GAS_PRICE})";
 
-transfer.one.hrc20:
+transfer.one.src20:
 	@echo ${SSCQ_DISTR_KEY}
 	@read -p "Type Toaddress: " toaddr; \
 	 read -p "Type Amount: " amount; \
-	 python -c "from tx import transfer_hrc20; transfer_hrc20(hrp='sscq',\
+	 python -c "from tx import transfer_src20; transfer_src20(hrp='sscq',\
 	 											  contractaddr='sscq1gjqlacff7tttnk7shaqgszexvt74avrh507knj',\
 	 											  fromprivkey='${SSCQ_DISTR_KEY}',\
 												  toaddr='$$toaddr',\
@@ -154,7 +154,7 @@ chkacc.one.sscq:
 	@read -p "Type sscq address: " addr; \
 	 python -c "from tx import accountinfo; print accountinfo('$$addr','${SSCQ_REST_SERVER}')"
 
-chkacc.one.hrc20:
+chkacc.one.src20:
 	@read -p "Type contract address: " contractaddr; \
 	 read -p "Type sscq address: " addr; \
 	 querydata=$$(python -c "from tx import queryGetBalance; print queryGetBalance('$$addr')");\
@@ -277,7 +277,7 @@ distr.sscq:
 											  ndefault_gas=${SSCQ_DEFAULT_TX_GAS},\
 											  ndefault_fee=${SSCQ_DEFAULT_GAS_PRICE})";
 
-distr.hrc20:
+distr.src20:
 	@python -c "from distr import distr_erc20; distr_erc20(fromprivkey='${SSCQ_DISTR_KEY}',\
 											  contractaddr='sscq12dvguqedrvgfrdl35hcgfmz4fz6rm6chrvf96g',\
 											  hrp='sscq',\

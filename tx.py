@@ -296,7 +296,7 @@ def completeData(bechaddr,amount):
           '0'*(64-len(hexaddr))+hexaddr+\
           '0'*(64-len(hexint))+hexint
 
-def transfer_hrc20(hrp,contractaddr,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100, gaswanted=500000,restapi='47.98.194.7:1317'):
+def transfer_src20(hrp,contractaddr,fromprivkey, toaddr, namount, chainid='testchain',gasprice=100, gaswanted=500000,restapi='47.98.194.7:1317'):
     import time
     start = time.time()
     from key import privkey2addr
@@ -316,7 +316,7 @@ def transfer_hrc20(hrp,contractaddr,fromprivkey, toaddr, namount, chainid='testc
     b64PubKey, b64Data = sign(hrp, fromprivkey, contractaddr, 0,nsequence, naccnumber,chainid,gasprice,gaswanted,data)
     broadcast(fromaddr,contractaddr,0,gasprice,gaswanted,b64PubKey,b64Data,data,restapi)
 
-def transferEx_hrc20(hrp,contractaddr,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid='testchain',gasprice=100, gaswanted=500000,restapi='47.98.194.7:1317',debug=False):
+def transferEx_src20(hrp,contractaddr,fromprivkey, toaddr, namount, naccnumber, nsequence, chainid='testchain',gasprice=100, gaswanted=500000,restapi='47.98.194.7:1317',debug=False):
     import time
     start = time.time()
     from key import privkey2addr
